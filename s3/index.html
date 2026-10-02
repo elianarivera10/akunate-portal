@@ -57,6 +57,8 @@ ol.how{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px}
 .dose b{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
 .signal{border-left:4px solid var(--done);padding-left:12px} .avoid{border-left:4px solid var(--warn);padding-left:12px}
 .video{border:2px dashed var(--line);border-radius:12px;padding:14px;text-align:center;color:var(--muted);font-size:.9rem}
+.video video{display:block;width:100%;max-height:70vh;border-radius:10px;background:#000;margin:0 auto}
+.video:has(video){border:0;padding:0}
 .video a{color:var(--accent);font-weight:700}
 .btn{appearance:none;border:0;border-radius:12px;padding:15px 18px;font:inherit;font-weight:700;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
 .btn.primary{background:var(--accent);color:var(--bg)}
@@ -94,7 +96,7 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut
 
 <script>
 const WHATSAPP = "573236209696";
-const VIDEOS = { mejillas: null, labios: null, noche: null }; // enlaces por agregar
+const VIDEOS = { mejillas: null, labios: null, noche: "/videos/lavado-nasal.mp4" }; // enlaces por agregar
 
 const STEPS = [
   { id:"mejillas", short:"Mejillas firmes contra el dedo", time:"3 min · 2 veces al día",
@@ -188,7 +190,10 @@ function home(){
 
 function step(s){
   const i = STEPS.indexOf(s), next = STEPS[i+1]?.id || "registro";
-  const vid = VIDEOS[s.id] ? `<a href="${esc(VIDEOS[s.id])}" target="_blank" rel="noopener">▶ Ver el video demostrativo</a>` : "Video demostrativo: la Dra. Eliana se lo envía por WhatsApp.";
+  const v = VIDEOS[s.id];
+  const vid = !v ? "Video demostrativo: la Dra. Eliana se lo envía por WhatsApp."
+    : /\.mp4$/.test(v) ? `<video controls playsinline preload="none" poster="${esc(v.replace(/\.mp4$/,".jpg"))}" src="${esc(v)}"></video>`
+    : `<a href="${esc(v)}" target="_blank" rel="noopener">▶ Ver el video demostrativo</a>`;
   const checks = s.check ? `<div class="card"><strong>¿Qué notó hoy?</strong>${s.check.map(c=>`
     <fieldset><legend>${esc(c.q)}</legend><div class="opts c3">${c.o.map(o=>`
       <label class="opt"><input type="radio" name="${c.k}" id="${c.k}-${o}" value="${esc(o)}" ${state.check[c.k]===o?"checked":""}><span>${esc(o)}</span></label>`).join("")}
