@@ -60,6 +60,8 @@ ol.how{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px}
 .video video{display:block;width:100%;max-height:70vh;border-radius:10px;background:#000;margin:0 auto}
 .video:has(video){border:0;padding:0}
 .video a{color:var(--accent);font-weight:700}
+.more summary{cursor:pointer;color:var(--accent);font-weight:700;padding:6px 0}
+.more video{display:block;width:100%;max-height:70vh;border-radius:10px;background:#000;margin-top:8px}
 .btn{appearance:none;border:0;border-radius:12px;padding:15px 18px;font:inherit;font-weight:700;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
 .btn.primary{background:var(--accent);color:var(--bg)}
 .btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
@@ -96,13 +98,13 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut
 
 <script>
 const WHATSAPP = "573236209696";
-const VIDEOS = { mejillas: null, labios: null, noche: "/videos/lavado-nasal.mp4" }; // enlaces por agregar
+const VIDEOS = { mejillas: "/videos/mejillas-contrarresistencia.mp4", labios: "/videos/mejillas-succion.mp4", noche: "/videos/masaje-nasal.mp4" };
 
 const STEPS = [
   { id:"mejillas", short:"Mejillas firmes contra el dedo", time:"3 min · 2 veces al día",
     title:"Paso 1 · Mejillas firmes contra el dedo",
     why:"Fortalece el buccinador, el músculo de la mejilla que ayuda a mantener la boca cerrada mientras duerme.",
-    how:["Antes de empezar, postura del globo: coronilla arriba, hombros sueltos y lengua en el punto N.","Con las manos limpias o un guante, ponga el dedo índice por dentro de la mejilla derecha.","Con los labios juntos, empuje la mejilla hacia afuera con el dedo mientras la mejilla hace fuerza hacia adentro.","Sostenga 5 segundos y suelte. Repita con la mejilla izquierda."],
+    how:["Antes de empezar, postura del globo: coronilla arriba, hombros sueltos y lengua en el punto N.","Con un guante o las manos recién lavadas, ponga el dedo índice por dentro de la mejilla derecha.","Con los labios juntos, empuje la mejilla hacia afuera con el dedo mientras la mejilla hace fuerza hacia adentro.","Sostenga 5 segundos y suelte. Repita con la mejilla izquierda."],
     dose:["5 por cada mejilla","Mañana y tarde"],
     signal:"Siente la mejilla firme y los labios se mantienen juntos sin esfuerzo.",
     avoid:"Arrugar el mentón, apretar los dientes o hacerlo con las manos sin lavar." },
@@ -120,6 +122,7 @@ const STEPS = [
     dose:["10 respiraciones 4-6","Cada noche"],
     signal:"El abdomen sube y baja, y los hombros se quedan quietos.",
     avoid:"Pelear con los pensamientos o mirar el celular si se despierta.",
+    extra:`<a class="btn ghost" href="/nariz/">Ver la guía de lavado nasal paso a paso →</a>`,
     check:[
       {k:"abdomen", q:"¿Se mueve el abdomen al respirar?", o:["Sí","Un poco","No"]},
       {k:"costillas", q:"¿Logró volver a la calma si la mente se activó?", o:["Sí","A veces","No"]},
@@ -182,6 +185,7 @@ function home(){
         <tr><td>Durante el día</td><td>Hidratación consciente: 2 segundos con los labios sellados antes de tragar</td></tr>
         <tr><td>Noche</td><td>Paso 3: lavado nasal y respiración en la cama</td></tr>
       </table></div>
+      <details class="more"><summary>▶ Ver video: hidratación consciente</summary><video controls playsinline preload="none" poster="/videos/hidratacion-consciente.jpg" src="/videos/hidratacion-consciente.mp4"></video></details>
       <p class="small muted">Día difícil: haga solo el lavado nasal y sus 10 respiraciones. Cumplir poco también cuenta.</p>
     </div>
     <button class="btn primary" data-go="${STEPS.find(s=>!state.done[s.id])?.id || "registro"}">${doneCount()===3?"Ir al registro":"Empezar"}</button>
@@ -202,6 +206,7 @@ function step(s){
     <h2>${esc(s.title)}</h2>
     <p>${esc(s.why)}</p>
     <div class="video">${vid}</div>
+    ${s.extra||""}
     <div class="card"><strong>Cómo hacerlo</strong><ol class="how">${s.how.map(h=>`<li>${esc(h)}</li>`).join("")}</ol></div>
     <div class="dose"><div><b>Cuánto</b>${esc(s.dose[0])}</div><div><b>Cuándo</b>${esc(s.dose[1])}</div></div>
     <p class="signal"><strong>Va bien si:</strong> ${esc(s.signal)}</p>
