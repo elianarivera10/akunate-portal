@@ -167,6 +167,15 @@ function home(){
       <h1>Llegó a la mitad del programa</h1>
       <p class="muted">Esta semana son tres prácticas cortas, unos 10 minutos al día, y un registro para comparar con su punto de partida.</p>
     </div>
+    <div class="card">
+      <strong>Cómo usar esta página</strong>
+      <ol class="how">
+        <li>Toque cada paso para ver el video y cómo hacerlo.</li>
+        <li>Cuando lo practique, toque «Lo hice hoy ✓». Cada día vuelve a empezar.</li>
+        <li>Una vez esta semana, llene el registro y envíelo a la Dra. Eliana por WhatsApp.</li>
+      </ol>
+      <p class="small muted">Lo que marque se guarda en este teléfono. Si tiene una duda, escríbale a la Dra. Eliana.</p>
+    </div>
     <ul class="route">
       ${STEPS.map((s,i)=>`<li><button data-go="${s.id}">
         <span class="num ${state.done[s.id]?"ok":""}">${state.done[s.id]?"✓":i+1}</span>
@@ -223,6 +232,7 @@ function registro(){
   return `<section class="screen" style="display:flex;flex-direction:column;gap:16px">
     <span class="eyebrow">Registro de mitad de camino</span>
     <h2>¿Cómo está hoy, comparado con el inicio?</h2>
+    <div class="cheer" style="font-weight:400">Llegar a la mitad del camino ya es un logro. Estas son las mismas preguntas del inicio: no hay respuestas buenas ni malas, solo nos muestran cuánto ha cambiado su descanso. Tómese unos minutos con calma.</div>
     <p class="muted">Responda pensando en las últimas dos semanas. La Dra. Eliana lo compara con su línea base.</p>
     ${EPWORTH.length?`<div class="card"><strong>¿Qué tan probable es que se quede dormido…?</strong>
       <p class="legend">0 nunca · 1 poco probable · 2 moderado · 3 muy probable</p>
