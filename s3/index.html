@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta property="og:title" content="Akunaté® · Su semana 3">
-<meta property="og:description" content="Mejillas firmes, labios sellados y noches más tranquilas.">
+<meta property="og:title" content="Akunaté® · Tu semana 3">
+<meta property="og:description" content="Labios sellados: la boca aprende a quedarse cerrada.">
 <meta property="og:image" content="https://portal.akunate.com/assets/og.png">
 <meta property="og:type" content="website">
 <link rel="icon" href="/assets/icon.png">
@@ -17,17 +17,17 @@
 <style>
 /* Layout: una columna de teléfono; vista general con la ruta de la semana, luego un paso a la vez con barra de avance arriba. */
 :root{
-  --bg:#f5f7fa; --surface:#ffffff; --ink:#16324f; --muted:#5b6b7d; --line:#dbe2ea;
-  --accent:#1b3a5c; --accent-soft:#e6edf5; --brand2:#c96a3b; --done:#2f7d4f; --done-soft:#e3f2e8; --warn:#9a5b12; --warn-soft:#fbefdc;
+  --bg:#f7f4fb; --surface:#ffffff; --ink:#2b2350; --muted:#6a6385; --line:#e4ddf0;
+  --accent:#5b45a0; --accent-soft:#efe9fa; --brand2:#c47a45; --done:#2f7d4f; --done-soft:#e3f2e8; --warn:#9a5b12; --warn-soft:#fbefdc;
   --display:"Newsreader", Georgia, "Times New Roman", serif;
   --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0e1620; --surface:#16212e; --ink:#e7edf4; --muted:#9fb0c2; --line:#2a394a;
-  --accent:#8fb4dc; --accent-soft:#1d2c3d; --brand2:#e48f62; --done:#7fd19c; --done-soft:#1c3326; --warn:#f0b866; --warn-soft:#3a2d18; color-scheme:dark}}
+  --bg:#14112a; --surface:#1e1a3a; --ink:#ece8f7; --muted:#aaa3c6; --line:#332d55;
+  --accent:#b9a6f2; --accent-soft:#2a2450; --brand2:#eaa274; --done:#7fd19c; --done-soft:#1c3326; --warn:#f0b866; --warn-soft:#3a2d18; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0e1620; --surface:#16212e; --ink:#e7edf4; --muted:#9fb0c2; --line:#2a394a;
-  --accent:#8fb4dc; --accent-soft:#1d2c3d; --brand2:#e48f62; --done:#7fd19c; --done-soft:#1c3326; --warn:#f0b866; --warn-soft:#3a2d18; color-scheme:dark}
+  --bg:#14112a; --surface:#1e1a3a; --ink:#ece8f7; --muted:#aaa3c6; --line:#332d55;
+  --accent:#b9a6f2; --accent-soft:#2a2450; --brand2:#eaa274; --done:#7fd19c; --done-soft:#1c3326; --warn:#f0b866; --warn-soft:#3a2d18; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;margin:0}
 .wrap{max-width:560px;margin:0 auto;padding-inline:18px;padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
@@ -58,10 +58,9 @@ ol.how{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px}
 .signal{border-left:4px solid var(--done);padding-left:12px} .avoid{border-left:4px solid var(--warn);padding-left:12px}
 .video{border:2px dashed var(--line);border-radius:12px;padding:14px;text-align:center;color:var(--muted);font-size:.9rem}
 .video video{display:block;width:100%;max-height:70vh;border-radius:10px;background:#000;margin:0 auto}
-.video:has(video){border:0;padding:0}
+.video:has(video),.video:has(iframe){border:0;padding:0}
+.video iframe{display:block;border:0;border-radius:10px;background:#000;margin:0 auto;height:70vh;max-width:100%;aspect-ratio:9/16}
 .video a{color:var(--accent);font-weight:700}
-.more summary{cursor:pointer;color:var(--accent);font-weight:700;padding:6px 0}
-.more video{display:block;width:100%;max-height:70vh;border-radius:10px;background:#000;margin-top:8px}
 .btn{appearance:none;border:0;border-radius:12px;padding:15px 18px;font:inherit;font-weight:700;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
 .btn.primary{background:var(--accent);color:var(--bg)}
 .btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
@@ -79,6 +78,11 @@ legend{font-weight:700;margin-bottom:6px;padding:0}
 .legend{font-size:.8rem;color:var(--muted)}
 textarea{font:inherit;width:100%;min-height:80px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface);color:var(--ink)}
 .total{font-family:var(--display);font-size:1.4rem}
+.hero{border-radius:18px;overflow:hidden;line-height:0;box-shadow:0 6px 24px rgba(60,40,120,.15)}
+.hero svg{display:block;width:100%;height:auto}
+.welcome{background:var(--accent-soft);color:var(--ink);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.welcome .moon{flex:0 0 auto;font-size:1.4rem;line-height:1.2}
+.card,.route button{box-shadow:0 2px 10px rgba(60,40,120,.06)}
 table{border-collapse:collapse;width:100%;font-size:.95rem}
 td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 th{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
@@ -98,37 +102,9 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut
 
 <script>
 const WHATSAPP = "573236209696";
-const VIDEOS = { mejillas: "/videos/mejillas-contrarresistencia.mp4", labios: "/videos/mejillas-succion.mp4", noche: "/videos/masaje-nasal.mp4" };
+const VIDEOS = {"mejillas": "/videos/mejillas-contrarresistencia.mp4", "labios": "/videos/mejillas-succion.mp4", "noche": "/videos/masaje-nasal.mp4"};
 
-const STEPS = [
-  { id:"mejillas", short:"Mejillas firmes contra el dedo", time:"3 min · 2 veces al día",
-    title:"Paso 1 · Mejillas firmes contra el dedo",
-    why:"Fortalece el buccinador, el músculo de la mejilla que ayuda a mantener la boca cerrada mientras duerme.",
-    how:["Antes de empezar, postura del globo: coronilla arriba, hombros sueltos y lengua en el punto N.","Con un guante o las manos recién lavadas, ponga el dedo índice por dentro de la mejilla derecha.","Con los labios juntos, empuje la mejilla hacia afuera con el dedo mientras la mejilla hace fuerza hacia adentro.","Sostenga 5 segundos y suelte. Repita con la mejilla izquierda."],
-    dose:["5 por cada mejilla","Mañana y tarde"],
-    signal:"Siente la mejilla firme y los labios se mantienen juntos sin esfuerzo.",
-    avoid:"Arrugar el mentón, apretar los dientes o hacerlo con las manos sin lavar." },
-  { id:"labios", short:"Succión de mejillas y labios sellados", time:"2 min · 2 veces al día",
-    title:"Paso 2 · Succione las mejillas y selle los labios",
-    why:"Activa los músculos alrededor de la boca para que el aire no entre ni salga por ella durante la noche.",
-    how:["Frente al espejo, succione suavemente las dos mejillas hacia adentro.","Al mismo tiempo, presione los labios contra los dientes.","Sostenga 5 segundos y relaje.","Termine con 5 aplanamientos de lengua y una /a/ sostenida, como en las semanas anteriores."],
-    dose:["5 repeticiones","Después del paso 1"],
-    signal:"Los labios quedan sellados y el mentón liso.",
-    avoid:"Fruncir o arrugar el mentón, o contener la respiración." },
-  { id:"noche", short:"Santuario nocturno", time:"8 min · cada noche",
-    title:"Paso 3 · Santuario nocturno",
-    why:"Nariz despejada y mente en calma para llegar a un sueño más profundo y continuo.",
-    how:["Masaje nasal de 30 segundos y lavado nasal con suero tibio, cabeza hacia adelante y diciendo \"Ahhh\".","En la cama, con la luz apagada y las manos en el abdomen, inhale por la nariz en 4 tiempos y exhale en 6. Haga 10 respiraciones.","Si su mente se activa o se despierta, nombre el pensamiento sin pelear con él: \"aquí está mi mente repasando pendientes\".","Vuelva la atención al aire fresco entrando por la nariz y a la punta de la lengua en el paladar."],
-    dose:["10 respiraciones 4-6","Cada noche"],
-    signal:"El abdomen sube y baja, y los hombros se quedan quietos.",
-    avoid:"Pelear con los pensamientos o mirar el celular si se despierta.",
-    extra:`<a class="btn ghost" href="/nariz/">Ver la guía de lavado nasal paso a paso →</a>`,
-    check:[
-      {k:"abdomen", q:"¿Se mueve el abdomen al respirar?", o:["Sí","Un poco","No"]},
-      {k:"costillas", q:"¿Logró volver a la calma si la mente se activó?", o:["Sí","A veces","No"]},
-      {k:"hombros", q:"¿Amaneció con la boca cerrada?", o:["Sí","A veces","No"]}
-    ] }
-];
+const STEPS = [{"id": "mejillas", "short": "Mejillas firmes contra el dedo", "time": "3 min · 2 veces al día", "title": "Paso 1 · Mejillas firmes contra el dedo", "why": "Fortalece el buccinador, el músculo de la mejilla que ayuda a mantener la boca cerrada mientras duermes.", "how": ["Antes de empezar, postura del globo: coronilla arriba, hombros sueltos y lengua en el punto N.", "Con un guante o las manos recién lavadas, pon el dedo índice por dentro de la mejilla derecha.", "Con los labios juntos, empuja la mejilla hacia afuera con el dedo mientras la mejilla hace fuerza hacia adentro.", "Sostén 5 segundos y suelta. Repite con la mejilla izquierda."], "dose": ["5 por cada mejilla", "Mañana y tarde"], "signal": "Sientes la mejilla firme y los labios se mantienen juntos sin esfuerzo.", "avoid": "Arrugar el mentón, apretar los dientes o hacerlo con las manos sin lavar."}, {"id": "labios", "short": "Succión de mejillas y labios sellados", "time": "2 min · 2 veces al día", "title": "Paso 2 · Succiona las mejillas y sella los labios", "why": "Activa los músculos alrededor de la boca para que el aire no entre ni salga por ella durante la noche.", "how": ["Frente al espejo, succiona suavemente las dos mejillas hacia adentro.", "Al mismo tiempo, presiona los labios contra los dientes.", "Sostén 5 segundos y relaja.", "Termina con 5 aplanamientos de lengua y una /a/ sostenida, como en la semana 2."], "dose": ["5 repeticiones", "Después del paso 1"], "signal": "Los labios quedan sellados y el mentón liso.", "avoid": "Fruncir o arrugar el mentón, o contener la respiración."}, {"id": "noche", "short": "Santuario nocturno", "time": "8 min · cada noche", "title": "Paso 3 · Santuario nocturno", "why": "Nariz despejada y mente en calma para llegar a un sueño más profundo y continuo.", "how": ["Masaje nasal de 30 segundos y lavado nasal con suero tibio, cabeza hacia adelante y diciendo «Ahhh».", "En la cama, con la luz apagada y las manos en el abdomen, inhala por la nariz en 4 tiempos y exhala en 6. Haz 10 respiraciones.", "Si tu mente se activa o te despiertas, nombra el pensamiento sin pelear con él: «aquí está mi mente repasando pendientes».", "Vuelve la atención al aire fresco entrando por la nariz y a la punta de la lengua en el paladar."], "dose": ["10 respiraciones 4-6", "Cada noche"], "signal": "El abdomen sube y baja, y los hombros se quedan quietos.", "avoid": "Pelear con los pensamientos o mirar el celular si te despiertas.", "extra": "<a class=\"btn ghost\" href=\"/nariz/\">Ver la guía de lavado nasal paso a paso →</a>", "check": [{"k": "abdomen", "q": "¿Se mueve el abdomen al respirar?", "o": ["Sí", "Un poco", "No"]}, {"k": "costillas", "q": "¿Lograste volver a la calma si la mente se activó?", "o": ["Sí", "A veces", "No"]}, {"k": "hombros", "q": "¿Amaneciste con la boca cerrada?", "o": ["Sí", "A veces", "No"]}]}];
 
 const EPWORTH = [];
 
@@ -141,13 +117,14 @@ const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const doneCount = () => STEPS.filter(s => state.done[s.id]).length;
 const epDone = () => EPWORTH.every((_,i) => state.ep[i] !== undefined);
+const regDone = () => !!(state.energia && state.boca && state.ronquido);
 const epTotal = () => EPWORTH.reduce((a,_,i) => a + (Number(state.ep[i])||0), 0);
 
 function bars(){
-  const order = ["home","mejillas","labios","noche","registro"];
+  const order = ["home", "mejillas", "labios", "noche", "registro"];
   const idx = Math.max(0, order.indexOf(state.screen));
   document.getElementById("bars").innerHTML = order.map((k,i) => {
-    const ok = (STEPS.find(s=>s.id===k) && state.done[k]) || (k==="registro" && epDone());
+    const ok = (STEPS.find(s=>s.id===k) && state.done[k]) || (k==="registro" && regDone());
     return `<div class="bar ${ok?"ok":i<=idx?"on":""}"></div>`;
   }).join("");
   document.getElementById("progressText").textContent =
@@ -160,10 +137,27 @@ function go(screen){ state.screen = screen; save(); render(); window.scrollTo(0,
 
 function home(){
   return `<section class="screen" style="display:flex;flex-direction:column;gap:18px">
+    <div class="hero" aria-hidden="true"><svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e2465"/><stop offset=".6" stop-color="#6b4fa8"/><stop offset="1" stop-color="#e9a97c"/></linearGradient></defs>
+      <rect width="360" height="150" fill="url(#sky)"/>
+      <g fill="#fff"><circle cx="40" cy="28" r="1.6"/><circle cx="92" cy="50" r="1.2"/><circle cx="150" cy="22" r="1.8"/><circle cx="205" cy="44" r="1.1"/><circle cx="318" cy="70" r="1.4"/><circle cx="64" cy="76" r="1"/><circle cx="182" cy="80" r="1.3"/></g>
+      <mask id="cut"><rect width="360" height="150" fill="#fff"/><circle cx="293" cy="37" r="20" fill="#000"/></mask><circle cx="282" cy="44" r="22" fill="#fbe7c6" mask="url(#cut)"/>
+      <path d="M0 122 C70 100 130 112 190 120 S300 104 360 114 V150 H0Z" fill="#4a3889" opacity=".85"/>
+      <path d="M0 134 C80 120 160 140 240 130 S330 124 360 132 V150 H0Z" fill="#33276a"/>
+    </svg></div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <span class="eyebrow">Semana 3 · Labios sellados</span>
       <h1>Esta semana, la boca aprende a quedarse cerrada</h1>
-      <p class="muted">Tres prácticas cortas, unos 10 minutos al día. Al final de la semana, un registro de 1 minuto.</p>
+      <p class="muted">Esta semana son tres prácticas cortas, unos 10 minutos al día, y un registro de 1 minuto al final.</p>
+    </div>
+    <div class="card">
+      <strong>Cómo usar esta página</strong>
+      <ol class="how">
+        <li>Toca cada paso para ver cómo hacerlo.</li>
+        <li>Cuando lo practiques, toca «Lo hice hoy ✓». Cada día vuelve a empezar.</li>
+        <li>Al final de la semana, llena el registro y envíaselo a la Dra. Eliana por WhatsApp.</li>
+      </ol>
+      <p class="small muted">Lo que marques se guarda en este teléfono. Si tienes una duda, escríbele a la Dra. Eliana.</p>
     </div>
     <ul class="route">
       ${STEPS.map((s,i)=>`<li><button data-go="${s.id}">
@@ -172,21 +166,20 @@ function home(){
         <span class="chip ${state.done[s.id]?"ok":""}">${state.done[s.id]?"Hecho hoy":"Ver"}</span>
       </button></li>`).join("")}
       <li><button data-go="registro">
-        <span class="num ${epDone()?"ok":""}">${epDone()?"✓":"4"}</span>
+        <span class="num ${regDone()?"ok":""}">${regDone()?"✓":"4"}</span>
         <span><span class="t">Registro de la semana</span><br><span class="s">1 minuto · al final de la semana</span></span>
-        <span class="chip ${epDone()?"ok":""}">${epDone()?"Listo":"Ver"}</span>
+        <span class="chip ${regDone()?"ok":""}">${regDone()?"Listo":"Ver"}</span>
       </button></li>
     </ul>
     <div class="card">
-      <strong>Su plan diario</strong>
+      <strong>Tu plan diario</strong>
       <div style="overflow-x:auto"><table>
         <tr><th>Momento</th><th>Qué hacer</th></tr>
         <tr><td>Mañana y tarde</td><td>Paso 1 y paso 2 frente al espejo</td></tr>
         <tr><td>Durante el día</td><td>Hidratación consciente: 2 segundos con los labios sellados antes de tragar</td></tr>
         <tr><td>Noche</td><td>Paso 3: lavado nasal y respiración en la cama</td></tr>
       </table></div>
-      <details class="more"><summary>▶ Ver video: hidratación consciente</summary><video controls playsinline preload="none" poster="/videos/hidratacion-consciente.jpg" src="/videos/hidratacion-consciente.mp4"></video></details>
-      <p class="small muted">Día difícil: haga solo el lavado nasal y sus 10 respiraciones. Cumplir poco también cuenta.</p>
+      <p class="small muted">Día difícil: haz solo el lavado nasal y tus 10 respiraciones. Cumplir poco también cuenta.</p>
     </div>
     <button class="btn primary" data-go="${STEPS.find(s=>!state.done[s.id])?.id || "registro"}">${doneCount()===3?"Ir al registro":"Empezar"}</button>
   </section>`;
@@ -195,10 +188,11 @@ function home(){
 function step(s){
   const i = STEPS.indexOf(s), next = STEPS[i+1]?.id || "registro";
   const v = VIDEOS[s.id];
-  const vid = !v ? "Video demostrativo: la Dra. Eliana se lo envía por WhatsApp."
+  const vid = !v ? "Video demostrativo: la Dra. Eliana te lo envía por WhatsApp."
+    : /drive\.google\.com\/file\/d\//.test(v) ? `<iframe src="${esc(v.replace(/\/view.*$/,"/preview"))}" allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Video demostrativo"></iframe>`
     : /\.mp4$/.test(v) ? `<video controls playsinline preload="none" poster="${esc(v.replace(/\.mp4$/,".jpg"))}" src="${esc(v)}"></video>`
     : `<a href="${esc(v)}" target="_blank" rel="noopener">▶ Ver el video demostrativo</a>`;
-  const checks = s.check ? `<div class="card"><strong>¿Qué notó hoy?</strong>${s.check.map(c=>`
+  const checks = s.check ? `<div class="card"><strong>¿Qué notaste hoy?</strong>${s.check.map(c=>`
     <fieldset><legend>${esc(c.q)}</legend><div class="opts c3">${c.o.map(o=>`
       <label class="opt"><input type="radio" name="${c.k}" id="${c.k}-${o}" value="${esc(o)}" ${state.check[c.k]===o?"checked":""}><span>${esc(o)}</span></label>`).join("")}
     </div></fieldset>`).join("")}</div>` : "";
@@ -210,7 +204,7 @@ function step(s){
     <div class="card"><strong>Cómo hacerlo</strong><ol class="how">${s.how.map(h=>`<li>${esc(h)}</li>`).join("")}</ol></div>
     <div class="dose"><div><b>Cuánto</b>${esc(s.dose[0])}</div><div><b>Cuándo</b>${esc(s.dose[1])}</div></div>
     <p class="signal"><strong>Va bien si:</strong> ${esc(s.signal)}</p>
-    <p class="avoid"><strong>Evite:</strong> ${esc(s.avoid)}</p>
+    <p class="avoid"><strong>Evita:</strong> ${esc(s.avoid)}</p>
     ${checks}
     ${state.done[s.id] ? `<div class="cheer">¡Muy bien! Paso ${i+1} de 3 hecho hoy.</div>` : `<button class="btn primary" data-done="${s.id}">Lo hice hoy ✓</button>`}
     <div class="nav"><button class="btn ghost" data-go="home">Volver</button><button class="btn ${state.done[s.id]?"primary":"ghost"}" data-go="${next}">Siguiente</button></div>
@@ -219,11 +213,12 @@ function step(s){
 
 function registro(){
   const labels = ["Nunca","Poco","Moderado","Mucho"];
-  const ready = state.energia && state.boca && state.ronquido;
+  const ready = regDone();
   return `<section class="screen" style="display:flex;flex-direction:column;gap:16px">
     <span class="eyebrow">Registro de la semana</span>
-    <h2>¿Cómo le fue esta semana?</h2>
-    <p class="muted">Responda pensando en los últimos 7 días. Le toma 1 minuto.</p>
+    <h2>¿Cómo te fue esta semana?</h2>
+    <div class="welcome"><span class="moon" aria-hidden="true">🌙</span><span>Cada semana que practicas, tu cuerpo aprende algo nuevo. No hay respuestas buenas ni malas: solo nos ayudan a acompañarte mejor.</span></div>
+    <p class="muted">Responde pensando en estos últimos siete días.</p>
     ${EPWORTH.length?`<div class="card"><strong>¿Qué tan probable es que se quede dormido…?</strong>
       <p class="legend">0 nunca · 1 poco probable · 2 moderado · 3 muy probable</p>
       ${EPWORTH.map((q,i)=>`<fieldset><legend>${esc(q)}</legend><div class="opts">${[0,1,2,3].map(v=>`
@@ -236,16 +231,16 @@ function registro(){
         <p class="legend">1 muy cansado · 5 con mucha energía</p></fieldset>
       <fieldset><legend>Boca seca al despertar</legend><div class="opts c3">${["Casi nunca","A veces","Casi siempre"].map(v=>`
         <label class="opt"><input type="radio" name="boca" id="boca-${v}" value="${v}" ${state.boca===v?"checked":""}><span>${v}</span></label>`).join("")}</div></fieldset>
-      <fieldset><legend>Ronquido que lo despierta</legend><div class="opts c3">${["Menos","Igual","Más"].map(v=>`
+      <fieldset><legend>Ronquido que te despierta</legend><div class="opts c3">${["Menos","Igual","Más"].map(v=>`
         <label class="opt"><input type="radio" name="ronquido" id="ron-${v}" value="${v}" ${state.ronquido===v?"checked":""}><span>${v}</span></label>`).join("")}</div></fieldset>
-      <label for="nota"><strong>¿Algo que quiera contarle a la Dra. Eliana?</strong></label>
+      <label for="nota"><strong>¿Algo que quieras contarle a la Dra. Eliana?</strong></label>
       <textarea id="nota" placeholder="Opcional">${esc(state.nota)}</textarea>
     </div>
     ${EPWORTH.length && epDone() ? `<p class="total">Su puntaje de somnolencia hoy: ${epTotal()} de 24</p>` : ""}
     <a class="btn primary" id="send" href="${waLink()}" target="_blank" rel="noopener" ${ready?"":'aria-disabled="true" style="opacity:.5;pointer-events:none"'}>Enviar a la Dra. Eliana por WhatsApp</a>
     <button class="btn ghost" id="copy">Copiar mis respuestas</button>
-    <p class="small muted" id="copyMsg">${ready?"":"Responda todas las preguntas para poder enviarlas."}</p>
-    <div class="card"><strong>Siguiente paso</strong><p>Al recibir su registro, la Dra. Eliana le envía su semana 4.</p></div>
+    <p class="small muted" id="copyMsg">${ready?"":"Responde las tres preguntas para poder enviarlas."}</p>
+    <div class="card"><strong>Siguiente paso</strong><p>Con tu registro, la Dra. Eliana revisa cómo vas y te envía tu semana 4.</p></div>
     <button class="btn ghost" data-go="home">Volver a la semana</button>
   </section>`;
 }
@@ -257,8 +252,8 @@ function summary(){
     EPWORTH.length ? `Somnolencia (Epworth): ${epTotal()}/24 [${EPWORTH.map((_,i)=>state.ep[i]??"-").join(",")}]` : "",
     `Energía al despertar: ${state.energia??"-"}/5`,
     `Boca seca al despertar: ${state.boca??"-"}`,
-    `Ronquido que lo despierta: ${state.ronquido??"-"}`,
-    `Noche: abdomen se mueve ${state.check.abdomen??"-"}, vuelve a la calma ${state.check.costillas??"-"}, amanece con boca cerrada ${state.check.hombros??"-"}`,
+    `Ronquido que me despierta: ${state.ronquido??"-"}`,
+    STEPS.flatMap(x=>x.check||[]).map(c=>`${c.q} ${state.check[c.k]??"-"}`).join("\n"),
     `Prácticas hechas hoy: ${yes}`,
     state.nota ? `Comentario: ${state.nota}` : ""
   ].filter(Boolean).join("\n");
