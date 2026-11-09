@@ -99,6 +99,13 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut
 .camino img{width:34px;height:auto;margin-left:6px}
 .cheer.pj{display:flex;gap:10px;align-items:center}
 .cheer.pj img{width:40px;height:auto;flex:none}
+.breath{background:linear-gradient(160deg,#2e2465,#6b4fa8);color:#fff;border-radius:18px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.breath .orb{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fbe7c6,#e9a97c 60%,#c47a45);transform:scale(.55);transition-property:transform;transition-timing-function:ease-in-out;box-shadow:0 0 40px rgba(251,231,198,.35)}
+.breath .fase{font-family:Newsreader,serif;font-size:1.6rem;font-weight:600;min-height:2.1rem}
+.breath .cuenta{font-size:2.2rem;font-weight:700;line-height:1;min-height:2.2rem}
+.breath .ciclo{font-size:.9rem;opacity:.85}
+.breath button{background:#fff;color:#2e2465;border:0;border-radius:999px;padding:12px 22px;font:inherit;font-weight:700;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.breath .orb{transition:none}}
 </style>
 
 <div class="wrap">
@@ -113,7 +120,7 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut
 
 <script>
 const WHATSAPP = "573236209696";
-const VIDEOS = {"nariz": "/videos/masaje-nasal.mp4", "respira": null, "globo": "/videos/hidratacion-consciente.mp4"};
+const VIDEOS = {"nariz": "/videos/masaje-nasal.mp4", "respira": "breath:4-4-4-4:5", "globo": "/videos/hidratacion-consciente.mp4"};
 
 const STEPS = [{"id": "nariz", "short": "Masaje y lavado nasal", "time": "5 min · cada noche", "title": "Paso 1 · Masaje y lavado nasal", "why": "Una nariz despejada deja pasar el aire en silencio y evita que respires por la boca mientras duermes.", "how": ["Masajea las aletas de la nariz con las yemas de los dedos, con círculos de abajo hacia arriba, durante 30 segundos.", "Prepara tu solución: agua tibia filtrada o hervida con un sobre de sales, o suero fisiológico tibio.", "Inclina el cuerpo y la cabeza hacia adelante, apoya la boquilla en una fosa nasal y di «Ahhh» con la boca abierta.", "Presiona suave para que el líquido fluya, deja que drene y suénate con suavidad. Repite en el otro lado."], "dose": ["1 lavado por cada lado", "Cada noche, antes de dormir"], "signal": "La nariz queda despejada y respiras por ella sin esfuerzo.", "avoid": "Llevar la cabeza hacia atrás, apuntar al tabique o forzar si hay dolor.", "extra": "<a class=\"btn ghost\" href=\"/nariz/\">Ver la guía de lavado nasal paso a paso →</a>"}, {"id": "respira", "short": "Respiración cuadrada en la cama", "time": "5 min · al apagar la luz", "title": "Paso 2 · Respiración cuadrada en la cama", "why": "Pasa tu cuerpo del modo alerta al modo descanso, con el abdomen moviéndose suave y el pecho tranquilo.", "how": ["Acuéstate boca arriba, con la luz apagada y las rodillas un poco dobladas.", "Pon una mano en el abdomen y la otra cerca de las últimas costillas.", "Inhala por la nariz en 4 tiempos, sostén 4, exhala por la nariz en 4 y haz una pausa de 4. Haz 5 ciclos.", "Sigue respirando suave, sintiendo que sube el abdomen mientras el pecho se queda quieto."], "dose": ["5 ciclos 4-4-4-4", "Cada noche, en la cama"], "signal": "El abdomen sube y baja, y los hombros se quedan quietos.", "avoid": "Llenar el pecho de aire o apurar los tiempos.", "check": [{"k": "abdomen", "q": "¿Se mueve el abdomen al respirar?", "o": ["Sí", "Un poco", "No"]}, {"k": "costillas", "q": "¿Hiciste el lavado nasal antes de dormir?", "o": ["Sí", "A veces", "No"]}, {"k": "hombros", "q": "¿Amaneciste con la boca seca?", "o": ["No", "A veces", "Sí"]}]}, {"id": "globo", "short": "Postura del globo e hidratación", "time": "1 min · varias veces al día", "title": "Paso 3 · Postura del globo e hidratación consciente", "why": "Durante el día, la cabeza alineada y la lengua en su lugar le dan más espacio a tu garganta para respirar.", "how": ["Imagina un globo de helio que sostiene suave tu coronilla: crece hacia arriba y relaja los hombros.", "Lleva la punta de la lengua al paladar, justo detrás de los dientes de arriba, y sella los labios sin apretar.", "Cada vez que tomes agua, mantén el sorbo 2 segundos con los labios sellados.", "Traga llevando la lengua al paladar y termina respirando por la nariz."], "dose": ["3 a 5 chequeos de 1 minuto", "Computador, comidas y cada vaso de agua"], "signal": "Cuello largo, hombros abajo y la boca cerrada sin esfuerzo.", "avoid": "Adelantar la cabeza para tragar o apretar los labios."}];
 
@@ -201,7 +208,8 @@ function home(){
 function step(s){
   const i = STEPS.indexOf(s), next = STEPS[i+1]?.id || "registro";
   const v = VIDEOS[s.id];
-  const vid = !v ? "Video demostrativo: la Dra. Eliana te lo envía por WhatsApp."
+  const isBreath = /^breath:/.test(v||"");
+  const vid = isBreath ? breathHTML(v) : !v ? "Video demostrativo: la Dra. Eliana te lo envía por WhatsApp."
     : /drive\.google\.com\/file\/d\//.test(v) ? `<iframe src="${esc(v.replace(/\/view.*$/,"/preview"))}" allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Video demostrativo"></iframe>`
     : /\.mp4$/.test(v) ? `<video controls playsinline preload="none" poster="${esc(v.replace(/\.mp4$/,".jpg"))}" src="${esc(v)}"></video>`
     : `<a href="${esc(v)}" target="_blank" rel="noopener">▶ Ver el video demostrativo</a>`;
@@ -212,7 +220,7 @@ function step(s){
   return `<section class="screen" style="display:flex;flex-direction:column;gap:16px">
     <h2>${esc(s.title)}</h2>
     <p>${esc(s.why)}</p>
-    <div class="video">${vid}</div>
+    ${isBreath ? vid : `<div class="video">${vid}</div>`}
     ${s.extra||""}
     <div class="card"><strong>Cómo hacerlo</strong><ol class="how">${s.how.map(h=>`<li>${esc(h)}</li>`).join("")}</ol></div>
     <div class="dose"><div><b>Cuánto</b>${esc(s.dose[0])}</div><div><b>Cuándo</b>${esc(s.dose[1])}</div></div>
@@ -273,7 +281,32 @@ function summary(){
 }
 function waLink(){ return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(summary())}`; }
 
+function breathHTML(v){
+  return `<div class="breath" data-p="${esc(v)}"><strong>Respira conmigo</strong>
+    <div class="orb" id="orb"></div><div class="fase" id="fase">Acuéstate boca arriba</div>
+    <div class="cuenta" id="cuenta"></div><div class="ciclo" id="ciclo">Una mano en el abdomen y otra en las costillas</div>
+    <button data-breath="1" id="bbtn">Empezar</button></div>`;
+}
+let breathTimer=null;
+function stopBreath(){ clearTimeout(breathTimer); breathTimer=null; }
+function runBreath(spec){
+  const [ ,pat,cyc]=spec.split(":"); const secs=pat.split("-").map(Number); const total=Number(cyc)||5;
+  const names=["Inhala por la nariz","Sostén el aire","Exhala por la nariz","Pausa sin aire"], scale=[1,1,.55,.55];
+  let c=1,ph=0,left=secs[0];
+  const orb=document.getElementById("orb"),fase=document.getElementById("fase"),cuenta=document.getElementById("cuenta"),ciclo=document.getElementById("ciclo"),btn=document.getElementById("bbtn");
+  btn.textContent="Detener";
+  const show=()=>{ fase.textContent=names[ph]; cuenta.textContent=left; ciclo.textContent=`Ciclo ${c} de ${total}`; };
+  const enter=()=>{ orb.style.transitionDuration=secs[ph]+"s"; orb.style.transform=`scale(${scale[ph]})`; left=secs[ph]; show(); };
+  const tick=()=>{ left--; if(left>0){ show(); breathTimer=setTimeout(tick,1000); return; }
+    ph=(ph+1)%4; if(ph===0){ c++; if(c>total){ stopBreath(); orb.style.transitionDuration="2s"; orb.style.transform="scale(.55)"; fase.textContent="Muy bien"; cuenta.textContent="✓"; ciclo.textContent="Sigue respirando suave, sintiendo el abdomen"; btn.textContent="Repetir"; return; } }
+    enter(); breathTimer=setTimeout(tick,1000); };
+  enter(); breathTimer=setTimeout(tick,1000);
+}
+app.addEventListener("click", e => { const b=e.target.closest("[data-breath]"); if(!b) return;
+  if(breathTimer){ stopBreath(); b.textContent="Empezar"; return; } runBreath(b.closest(".breath").dataset.p); });
+
 function render(){
+  stopBreath();
   bars();
   const s = STEPS.find(x=>x.id===state.screen);
   app.innerHTML = state.screen==="home" ? home() : s ? step(s) : registro();
