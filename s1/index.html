@@ -88,6 +88,17 @@ td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertic
 th{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .foot{font-size:.85rem;color:var(--muted);text-align:center}
 @media (prefers-reduced-motion:no-preference){.screen{animation:in .25s ease-out}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+.guide{display:flex;gap:12px;align-items:flex-end}
+.guide img{width:84px;height:auto;flex:none}
+.bubble{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:0 2px 10px rgba(60,40,120,.06)}
+.bubble:before{content:"";position:absolute;left:-8px;bottom:18px;border:8px solid transparent;border-right-color:var(--line);border-left:0}
+.bubble b{display:block;color:var(--accent);font-size:.85rem;margin-bottom:2px}
+.camino{display:flex;align-items:center;gap:4px}
+.camino span{flex:1;height:8px;border-radius:4px;background:var(--line)}
+.camino span.on{background:var(--accent)}
+.camino img{width:34px;height:auto;margin-left:6px}
+.cheer.pj{display:flex;gap:10px;align-items:center}
+.cheer.pj img{width:40px;height:auto;flex:none}
 </style>
 
 <div class="wrap">
@@ -145,6 +156,8 @@ function home(){
       <path d="M0 122 C70 100 130 112 190 120 S300 104 360 114 V150 H0Z" fill="#4a3889" opacity=".85"/>
       <path d="M0 134 C80 120 160 140 240 130 S330 124 360 132 V150 H0Z" fill="#33276a"/>
     </svg></div>
+    <div class="guide"><img src="/assets/personajes/dormilon.png" alt="Dormilón"><div class="bubble"><b>Dormilón, tu guía de la semana</b>¡Hola! Soy Dormilón. Yo también me levantaba pesado, como si no hubiera dormido. Esta semana te enseño mis tres trucos para que la noche sí te descanse.</div></div>
+    <div><div class="camino" aria-label="Semana 1 de 12 rumbo a Capijama"><span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><img src="/assets/personajes/capijama.png" alt="Capijama"></div><p class="small muted" style="margin-top:6px">Semana 1 de 12. Al final del camino te espera Capijama: dormir bien y despertar con energía.</p></div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <span class="eyebrow">Semana 1 · Abrir el camino</span>
       <h1>Esta semana abrimos el camino al buen descanso</h1>
@@ -206,7 +219,7 @@ function step(s){
     <p class="signal"><strong>Va bien si:</strong> ${esc(s.signal)}</p>
     <p class="avoid"><strong>Evita:</strong> ${esc(s.avoid)}</p>
     ${checks}
-    ${state.done[s.id] ? `<div class="cheer">¡Muy bien! Paso ${i+1} de 3 hecho hoy.</div>` : `<button class="btn primary" data-done="${s.id}">Lo hice hoy ✓</button>`}
+    ${state.done[s.id] ? `<div class="cheer pj"><img src="/assets/personajes/dormilon.png" alt=""><span>${["¡Eso! Una nariz despejada es el primer truco.", "¡Qué bien! Así el cuerpo entiende que ya es hora de descansar.", "¡Bien hecho! Tu garganta te lo agradece."][i]} Paso ${i+1} de 3 hecho hoy.</span></div>` : `<button class="btn primary" data-done="${s.id}">Lo hice hoy ✓</button>`}
     <div class="nav"><button class="btn ghost" data-go="home">Volver</button><button class="btn ${state.done[s.id]?"primary":"ghost"}" data-go="${next}">Siguiente</button></div>
   </section>`;
 }
