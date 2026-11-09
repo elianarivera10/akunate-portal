@@ -88,6 +88,13 @@ td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertic
 th{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .foot{font-size:.85rem;color:var(--muted);text-align:center}
 @media (prefers-reduced-motion:no-preference){.screen{animation:in .25s ease-out}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+.breath{background:linear-gradient(160deg,#2e2465,#6b4fa8);color:#fff;border-radius:18px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.breath .orb{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fbe7c6,#e9a97c 60%,#c47a45);transform:scale(.55);transition-property:transform;transition-timing-function:ease-in-out;box-shadow:0 0 40px rgba(251,231,198,.35)}
+.breath .fase{font-family:Newsreader,serif;font-size:1.6rem;font-weight:600;min-height:2.1rem}
+.breath .cuenta{font-size:2.2rem;font-weight:700;line-height:1;min-height:2.2rem}
+.breath .ciclo{font-size:.9rem;opacity:.85}
+.breath button{background:#fff;color:#2e2465;border:0;border-radius:999px;padding:12px 22px;font:inherit;font-weight:700;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.breath .orb{transition:none}}
 </style>
 
 <div class="wrap">
@@ -188,7 +195,8 @@ function home(){
 function step(s){
   const i = STEPS.indexOf(s), next = STEPS[i+1]?.id || "registro";
   const v = VIDEOS[s.id];
-  const vid = !v ? "Video demostrativo: la Dra. Eliana te lo envía por WhatsApp."
+  const isBreath = /^breath:/.test(v||"");
+  const vid = isBreath ? breathHTML(v) : !v ? "Video demostrativo: la Dra. Eliana te lo envía por WhatsApp."
     : /drive\.google\.com\/file\/d\//.test(v) ? `<iframe src="${esc(v.replace(/\/view.*$/,"/preview"))}" allow="autoplay; fullscreen" allowfullscreen loading="lazy" title="Video demostrativo"></iframe>`
     : /\.mp4$/.test(v) ? `<video controls playsinline preload="none" poster="${esc(v.replace(/\.mp4$/,".jpg"))}" src="${esc(v)}"></video>`
     : `<a href="${esc(v)}" target="_blank" rel="noopener">▶ Ver el video demostrativo</a>`;
@@ -199,7 +207,7 @@ function step(s){
   return `<section class="screen" style="display:flex;flex-direction:column;gap:16px">
     <h2>${esc(s.title)}</h2>
     <p>${esc(s.why)}</p>
-    <div class="video">${vid}</div>
+    ${isBreath ? vid : `<div class="video">${vid}</div>`}
     ${s.extra||""}
     <div class="card"><strong>Cómo hacerlo</strong><ol class="how">${s.how.map(h=>`<li>${esc(h)}</li>`).join("")}</ol></div>
     <div class="dose"><div><b>Cuánto</b>${esc(s.dose[0])}</div><div><b>Cuándo</b>${esc(s.dose[1])}</div></div>
@@ -260,7 +268,32 @@ function summary(){
 }
 function waLink(){ return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(summary())}`; }
 
+function breathHTML(v){
+  return `<div class="breath" data-p="${esc(v)}"><strong>Respira conmigo</strong>
+    <div class="orb" id="orb"></div><div class="fase" id="fase">Acuéstate boca arriba</div>
+    <div class="cuenta" id="cuenta"></div><div class="ciclo" id="ciclo">Una mano en el abdomen y otra en las costillas</div>
+    <button data-breath="1" id="bbtn">Empezar</button></div>`;
+}
+let breathTimer=null;
+function stopBreath(){ clearTimeout(breathTimer); breathTimer=null; }
+function runBreath(spec){
+  const [ ,pat,cyc]=spec.split(":"); const secs=pat.split("-").map(Number); const total=Number(cyc)||5;
+  const names=["Inhala por la nariz","Sostén el aire","Exhala por la nariz","Pausa sin aire"], scale=[1,1,.55,.55];
+  let c=1,ph=0,left=secs[0];
+  const orb=document.getElementById("orb"),fase=document.getElementById("fase"),cuenta=document.getElementById("cuenta"),ciclo=document.getElementById("ciclo"),btn=document.getElementById("bbtn");
+  btn.textContent="Detener";
+  const show=()=>{ fase.textContent=names[ph]; cuenta.textContent=left; ciclo.textContent=`Ciclo ${c} de ${total}`; };
+  const enter=()=>{ orb.style.transitionDuration=secs[ph]+"s"; orb.style.transform=`scale(${scale[ph]})`; left=secs[ph]; show(); };
+  const tick=()=>{ left--; if(left>0){ show(); breathTimer=setTimeout(tick,1000); return; }
+    ph=(ph+1)%4; if(ph===0){ c++; if(c>total){ stopBreath(); orb.style.transitionDuration="2s"; orb.style.transform="scale(.55)"; fase.textContent="Muy bien"; cuenta.textContent="✓"; ciclo.textContent="Sigue respirando suave, sintiendo el abdomen"; btn.textContent="Repetir"; return; } }
+    enter(); breathTimer=setTimeout(tick,1000); };
+  enter(); breathTimer=setTimeout(tick,1000);
+}
+app.addEventListener("click", e => { const b=e.target.closest("[data-breath]"); if(!b) return;
+  if(breathTimer){ stopBreath(); b.textContent="Empezar"; return; } runBreath(b.closest(".breath").dataset.p); });
+
 function render(){
+  stopBreath();
   bars();
   const s = STEPS.find(x=>x.id===state.screen);
   app.innerHTML = state.screen==="home" ? home() : s ? step(s) : registro();
