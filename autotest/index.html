@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:title" content="Akunaté® · ¿Qué personaje del sueño eres?">
+<meta property="og:description" content="Un test de 2 minutos para descubrir cómo está tu descanso y qué te puede ayudar a despertar con más energía.">
+<meta property="og:image" content="https://portal.akunate.com/assets/og.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/icon.png">
+<link rel="apple-touch-icon" href="/assets/icon.png">
+<title>Akunaté® · Autotest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
+<style>
+/* Layout: una columna de teléfono, una tarjeta a la vez, como las tarjetas del autotest en Notion. */
+:root{
+  --bg:#f6f3ee; --surface:#ffffff; --ink:#16263f; --muted:#56606f; --line:#e6dfd4;
+  --accent:#a8532a; --accent-soft:#fbf0e8; --night:#5b45a0; --night-soft:#efe9fa; --ok:#2f7d4f;
+  --display:'Newsreader', Georgia, serif; --body:'Atkinson Hyperlegible', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121a28; --surface:#1b2536; --ink:#eef1f6; --muted:#a9b3c2; --line:#2c3850;
+  --accent:#e9a07a; --accent-soft:#3a2a24; --night:#b9a6f2; --night-soft:#2a2450; --ok:#7fc79a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121a28; --surface:#1b2536; --ink:#eef1f6; --muted:#a9b3c2; --line:#2c3850;
+  --accent:#e9a07a; --accent-soft:#3a2a24; --night:#b9a6f2; --night-soft:#2a2450; --ok:#7fc79a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);padding-block:20px 40px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-weight:600;font-size:22px}
+.tag{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--night);background:var(--night-soft);padding:4px 10px;border-radius:99px}
+.bar{display:flex;gap:6px}.bar i{flex:1;height:6px;border-radius:6px;background:var(--line)}.bar i.on{background:var(--accent)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+h1,h2{font-family:var(--display);font-weight:600;line-height:1.12;text-wrap:balance;margin:0}
+h1{font-size:34px}h2{font-size:27px}
+p{margin:0}.muted{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.hero{display:flex;justify-content:center;padding:6px 0}.hero img{height:220px;width:auto;object-fit:contain}
+.opts{display:flex;flex-direction:column;gap:10px}
+button{font:inherit;color:inherit;cursor:pointer}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px 16px;font-weight:700}
+.opt:hover{border-color:var(--accent)}
+.opt .em{font-size:24px;width:32px;text-align:center}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sym{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px;text-align:left;font-weight:700;font-size:15px;line-height:1.3;min-height:64px;display:flex;align-items:center;gap:8px}
+.sym[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.sym .ck{flex:none;width:22px;height:22px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;font-size:14px}
+.sym[aria-pressed="true"] .ck{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.btn{background:var(--ink);color:var(--bg);border:0;border-radius:14px;padding:15px 18px;font-weight:700;width:100%;text-align:center;text-decoration:none;display:block}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px}.row>*{flex:1}
+:focus-visible{outline:3px solid var(--night);outline-offset:2px}
+ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.note{font-size:14px;color:var(--muted);background:var(--accent-soft);border-radius:12px;padding:12px 14px}
+.level{display:flex;gap:6px}.level span{flex:1;font-size:12px;font-weight:700;text-align:center;padding:8px 4px;border-radius:10px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.level span.on{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.journey{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;text-align:center}
+.journey figure{margin:0;display:flex;flex-direction:column;gap:6px;align-items:center}
+.journey img{height:150px;width:auto;object-fit:contain}
+.journey figcaption{font-weight:700;font-size:15px}
+.arrow{font-size:28px;color:var(--accent);padding-bottom:60px}
+.ph{height:150px;width:110px;border:2px dashed var(--line);border-radius:14px;display:grid;place-items:center;font-size:13px;color:var(--muted);padding:8px}
+.rec h3{margin:0;font-size:16px}.rec{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
+.rec:first-of-type{border-top:0;padding-top:0}
+.anchors{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.anchors div{background:var(--night-soft);border-radius:12px;padding:10px;font-size:14px;font-weight:700;line-height:1.3}
+.foot{font-size:13px;color:var(--muted);text-align:center}
+.link{background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px}
+@media (max-width:380px){.grid{grid-template-columns:1fr}.anchors{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){#view{animation:in .25s ease}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span class="brand">Akunaté®</span><span class="tag">Autotest</span></div>
+  <div class="bar" id="bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <main id="view" aria-live="polite"></main>
+  <p class="foot">Orientación, no diagnóstico. Akunaté® · Dra. Eliana Rivera</p>
+</div>
+
+<script>
+const IMG={capijama:"/assets/personajes/capijama.png",dormilon:"/assets/personajes/dormilon.png",almohadin:"/assets/personajes/almohadin.png",mosco:"/assets/personajes/mosco.png",s1:"/assets/personajes/suzzzita1.png",s2:"/assets/personajes/suzzzita2.png",s3:"/assets/personajes/suzzzita3.png",s4:"/assets/personajes/suzzzita4.png",s5:"/assets/personajes/suzzzita5.png",s6:"/assets/personajes/suzzzita6.png",conz:"/assets/personajes/conzzzilio.png"};
+const WA="573236209696";
+
+const EXP=[
+ {id:"bien",em:"🌙",t:"Bien y descansado",d:"Duermo bien y me siento descansado al despertar."},
+ {id:"cansado",em:"😴",t:"Duermo pero sigo con cansancio",d:"Duermo lo suficiente pero me siento cansado durante el día.",
+  body:"La fatiga a pesar de dormir puede indicar un sueño que no repara.",
+  list:["Señales a vigilar: somnolencia de día, ronquido, boca seca, despertares frecuentes.","Recomendación: rutina estable de horarios, higiene nasal en la noche y revisar los hábitos de la tarde y la noche."],p:{suz:2,dorm:1}},
+ {id:"cuesta",em:"🌀",t:"Me cuesta dormir",d:"Tengo dificultades para dormir.",
+  body:"Cuando cuesta conciliar o mantener el sueño, el cuerpo necesita señales constantes para bajar revoluciones. La luz y las pantallas tarde mantienen al cerebro despierto.",
+  list:["Hora fija para despertar, con margen de 30 minutos.","Luz de la mañana y movimiento breve al empezar el día.","Ritual de cierre: la última hora sin pantallas."],p:{mosco:2}},
+ {id:"irregular",em:"🔁",t:"Mi sueño es irregular",d:"Mis horarios y la calidad de mi descanso cambian mucho.",
+  body:"Un sueño irregular no es solo una molestia: es una señal de tu bienestar. Cuando los horarios cambian mucho, aumenta el cansancio de día y baja el rendimiento. La buena noticia: puedes recuperar el control.",
+  list:["Fines de semana muy distintos a los días de trabajo.","Siestas largas o tarde.","Noches con mucha pantalla o luz intensa."],p:{mosco:2}}
+];
+
+const SYM=[
+ {id:"cansancio",t:"Cansancio crónico",p:{suz:1,dorm:1},r:["Somnolencia y cansancio","Primeras 2 a 3 semanas: horarios estables, menos interrupciones del sueño y mejor respiración en la noche. Si persiste: protocolo de vía aérea (higiene nasal y entrenamiento orofacial)."]},
+ {id:"somnolencia",t:"Somnolencia diurna",p:{conz:1,dorm:2},r:["Somnolencia y cansancio","Primeras 2 a 3 semanas: horarios estables, menos interrupciones del sueño y mejor respiración en la noche. Si persiste: evaluación de sueño con nuestro equipo."]},
+ {id:"memoria",t:"Pérdida de la memoria",p:{suz:2},r:["Memoria y concentración","Un sueño más profundo y continuo devuelve claridad mental. Empezamos con rutina de horarios, cierre sin pantallas y respiración nasal."]},
+ {id:"cabeza",t:"Dolor de cabeza al despertar",p:{suz:1,alm:1},r:["Dolor de cabeza matutino","Primeras 2 a 3 semanas: consolidar el sueño profundo y la respiración nasal en la noche. Si persiste: apoyo nutricional antiinflamatorio."]},
+ {id:"pesadillas",t:"Pesadillas",p:{mosco:1},r:["Pesadillas","Higiene de sueño y práctica guiada de reescritura de sueños durante 2 a 3 semanas, con apoyo de nuestro equipo."]},
+ {id:"humor",t:"Cambios de humor",p:{conz:2},r:["Ánimo y ansiedad","Herramientas de terapia cognitivo-conductual para el insomnio, rutina de horarios y pequeñas prácticas de calma antes de dormir."]},
+ {id:"dolores",t:"Dolores físicos",p:{conz:2},r:["Dolores físicos","Responden más despacio: suelen mejorar desde la semana 3, cuando hay menos microdespertares y el sueño es más profundo."]},
+ {id:"conciliar",t:"Dificultad para conciliar o mantener el sueño",p:{mosco:2},r:["Conciliar y mantener el sueño","Higiene de sueño, rutina de horarios y el módulo de Conzzzilia: mente en calma y ritual de cierre del día."]},
+ {id:"peso",t:"Cambios de peso",p:{},r:["Peso corporal","El sueño estable ayuda a regular el apetito. Sumamos el módulo de nutrición antiinflamatoria y la rutina de horarios."]},
+ {id:"ronquido",t:"Ronquido",p:{alm:3},r:["Ronquido","Primeras 2 a 3 semanas: dormir de lado, higiene nasal y entrenamiento miofuncional orofacial básico, con nuestro acompañamiento."]}
+];
+
+const PROF={
+ suz:{n:"Suzzzita",img:IMG.s1,k:"Cansancio que roba claridad",t:"Como Suzzzita, sientes que el cansancio te quita memoria y concentración, aunque duermas tus horas."},
+ conz:{n:"Conzzzilio",img:"/assets/personajes/conzzzilio.png",k:"Agotamiento físico y de ánimo",t:"Como Conzzzilio (también llamado Gruñón), el cansancio se te nota en el cuerpo y en el humor: sueño de día, dolores y poca paciencia."},
+ dorm:{n:"Dormilón",img:IMG.dormilon,k:"Pesadez durante el día",t:"Como Dormilón, cargas una somnolencia que no se va. La meta es que tus noches vuelvan a ser profundas."},
+ mosco:{n:"Mosco",img:IMG.mosco,k:"Mente que no se apaga",t:"Como Mosco, tu mente se queda zumbando de noche. Vas a aprender a desconectar y a darle a tu cuerpo señales claras de descanso."},
+ alm:{n:"Almohadín",img:IMG.almohadin,k:"Respiración nocturna",t:"Como Almohadín, tu almohada sabe que algo pasa con tu respiración de noche: ronquido, boca seca o despertares."}
+};
+const ORDER=["suz","mosco","alm","dorm","conz"];
+
+let S={step:"inicio",exp:null,sym:new Set()};
+const $v=document.getElementById("view");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function bar(n){document.querySelectorAll("#bar i").forEach((el,i)=>el.classList.toggle("on",i<n))}
+function go(step){S.step=step;render();window.scrollTo({top:0})}
+
+function render(){
+ $v.style.animation="none";void $v.offsetWidth;$v.style.animation="";
+ const f={inicio,experiencia,detalle,sintomas,resultado,bien}[S.step];$v.innerHTML=f();wire();
+}
+function inicio(){bar(1);return `<div class="wrap">
+ <p class="eyebrow">Autotest · 3 minutos</p>
+ <h1>Descubre si Akunaté es para ti</h1>
+ <div class="hero"><img src="${IMG.s2}" alt="Suzzzita bosteza mientras camina, cansada"></div>
+ <p>Levantarte sin energía, tener sueño durante el día, despertar con dolor de cabeza o roncar fuerte pueden ser señales de un descanso de mala calidad. Reconocerlas a tiempo te permite actuar antes de que afecten tu salud, tu ánimo y tu concentración.</p>
+ <div class="note"><b>Antes de empezar:</b> si tienes un diagnóstico de apnea del sueño severa o una enfermedad crónica (corazón, diabetes), consulta con tu médico antes de iniciar cualquier programa.</div>
+ <button class="btn" data-go="experiencia">Empezar ahora</button></div>`}
+function experiencia(){bar(2);return `<div class="wrap">
+ <p class="eyebrow">Pregunta 1 de 2</p>
+ <h2>¿Cómo describes tu experiencia con el sueño durante el último mes?</h2>
+ <p class="muted">Elige la opción que mejor te represente.</p>
+ <div class="opts">${EXP.map(e=>`<button class="opt" data-exp="${e.id}"><span class="em" aria-hidden="true">${e.em}</span><span>${esc(e.t)}<br><span class="muted" style="font-weight:400;font-size:15px">${esc(e.d)}</span></span></button>`).join("")}</div>
+ <button class="link" data-go="inicio">← Volver al inicio</button></div>`}
+function detalle(){bar(2);const e=EXP.find(x=>x.id===S.exp);return `<div class="wrap">
+ <p class="eyebrow">Seleccionaste</p>
+ <h2>${esc(e.t)}</h2>
+ <div class="hero"><img src="${IMG.s3}" alt="Suzzzita lee un papel con un signo de pregunta"></div>
+ <div class="card"><p>${esc(e.body)}</p><ul>${e.list.map(l=>`<li>${esc(l)}</li>`).join("")}</ul></div>
+ <button class="btn" data-go="sintomas">Seguir: marcar mis síntomas</button>
+ <button class="link" data-go="experiencia">← Cambiar respuesta</button></div>`}
+function sintomas(){bar(3);const n=S.sym.size;return `<div class="wrap">
+ <p class="eyebrow">Pregunta 2 de 2</p>
+ <h2>¿Cuáles de estas señales vives con frecuencia?</h2>
+ <p class="muted">Marca todas las que apliquen.</p>
+ <div class="grid">${SYM.map(s=>`<button class="sym" data-sym="${s.id}" aria-pressed="${S.sym.has(s.id)}"><span class="ck" aria-hidden="true">${S.sym.has(s.id)?"✓":""}</span>${esc(s.t)}</button>`).join("")}</div>
+ <button class="btn" data-go="resultado" ${n?"":"disabled"}>${n?`Ver mi resultado (${n})`:"Marca al menos una señal"}</button>
+ <button class="link" data-go="detalle">← Volver</button></div>`}
+function nivel(n){return n<=3?0:n<=7?1:2}
+function resultado(){bar(4);
+ const sc={suz:0,conz:0,dorm:0,mosco:0,alm:0};
+ const add=p=>Object.entries(p||{}).forEach(([k,v])=>sc[k]+=v);
+ add(EXP.find(x=>x.id===S.exp).p);[...S.sym].forEach(id=>add(SYM.find(s=>s.id===id).p));
+ const top=ORDER.reduce((a,b)=>sc[b]>sc[a]?b:a,ORDER[0]);const P=PROF[top];
+ const n=S.sym.size,lv=nivel(n);
+ const LV=["Algunos inconvenientes","Un problema de sueño","Posible trastorno de sueño"];
+ const LVT=["Marcaste pocas señales. Con buenos hábitos y constancia, tu descanso puede mejorar pronto.","Varias señales se suman. Vale la pena un plan guiado para recuperar un sueño profundo.","Marcaste muchas señales. Te recomendamos una evaluación de sueño con nuestro equipo antes de empezar."];
+ const seen=new Set();const recs=SYM.filter(s=>S.sym.has(s.id)).filter(s=>!seen.has(s.r[0])&&seen.add(s.r[0]));
+ const pimg=P.img?`<img src="${P.img}" alt="${esc(P.n)}">`:`<div class="ph">Conzzzilio<br>ilustración en camino</div>`;
+ const msg=encodeURIComponent(`Hola, hice el autotest de Akunaté. Mi perfil: ${P.n}. Señales: ${n}. Quiero agendar una videollamada.`);
+ return `<div class="wrap">
+ <p class="eyebrow">Tu perfil de sueño</p>
+ <h1>Tu perfil se parece al de ${esc(P.n)}</h1>
+ <p class="muted"><b style="color:var(--ink)">${esc(P.k)}.</b> ${esc(P.t)}</p>
+ <div class="card"><div class="journey"><figure>${pimg}<figcaption>Hoy: ${esc(P.n)}</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img src="${IMG.capijama}" alt="Capijama saluda con alegría"><figcaption>Meta: Capijama</figcaption></figure></div>
+ <p class="muted" style="text-align:center">Capijama es tu punto B: dormir profundo y despertar con energía.</p></div>
+ <div class="card"><p class="eyebrow" style="color:var(--muted)">${n} ${n===1?"señal marcada":"señales marcadas"}</p>
+ <div class="level">${LV.map((l,i)=>`<span class="${i===lv?"on":""}">${l}</span>`).join("")}</div><p>${LVT[lv]}</p></div>
+ <div class="card"><h2 style="font-size:22px">Qué haríamos contigo</h2>${recs.map(s=>`<div class="rec"><h3>${esc(s.r[0])}</h3><p class="muted">${esc(s.r[1])}</p></div>`).join("")}</div>
+ <div class="card"><h2 style="font-size:22px">Tus tres anclas diarias</h2><div class="anchors"><div>Hora fija de despertar, ±30 min</div><div>Luz de la mañana y movimiento breve</div><div>Última hora sin pantallas</div></div>
+ <p class="muted">Dale a cada cambio 2 a 3 semanas de práctica antes de evaluar.</p></div>
+ <a class="btn" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">Agendar videollamada con una experta</a>
+ <p class="foot">WhatsApp oficial Akunaté: +57 323 620 9696</p>
+ <button class="btn alt" data-reset>Repetir el autotest</button></div>`}
+function bien(){bar(4);return `<div class="wrap">
+ <p class="eyebrow">Tu resultado</p>
+ <h1>¡Felicitaciones! Tu descanso es óptimo</h1>
+ <div class="hero"><img src="${IMG.capijama}" alt="Capijama saluda con alegría"></div>
+ <p>Akunaté está pensado para quienes luchan con cansancio crónico, ronquido o sueño durante el día. Si ya disfrutas de un descanso reparador, el programa principal no es para ti.</p>
+ <div class="card"><h2 style="font-size:22px">Para que sigas así</h2><ul>
+ <li><b>Horario regular</b> para acostarte y levantarte, también el fin de semana.</li>
+ <li><b>Cuarto oscuro, silencioso y fresco.</b></li>
+ <li><b>Ritual de cierre:</b> lectura tranquila, baño tibio o meditación.</li>
+ <li><b>Pantallas fuera</b> al menos una hora antes de dormir.</li>
+ <li><b>Sin cafeína ni alcohol</b> en la tarde y la noche.</li>
+ <li><b>Higiene nasal</b> y respiración por la nariz.</li></ul></div>
+ <p class="muted">Comparte esta información con quienes amas y podrían necesitarla.</p>
+ <button class="btn alt" data-reset>Repetir el autotest</button></div>`}
+
+function wire(){
+ $v.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(!b.disabled)go(b.dataset.go)});
+ $v.querySelectorAll("[data-exp]").forEach(b=>b.onclick=()=>{S.exp=b.dataset.exp;S.sym.clear();go(S.exp==="bien"?"bien":"detalle")});
+ $v.querySelectorAll("[data-sym]").forEach(b=>b.onclick=()=>{const id=b.dataset.sym;S.sym.has(id)?S.sym.delete(id):S.sym.add(id);render();const el=$v.querySelector(`[data-sym="${id}"]`);el&&el.focus()});
+ $v.querySelectorAll("[data-reset]").forEach(b=>b.onclick=()=>{S={step:"inicio",exp:null,sym:new Set()};go("inicio")});
+}
+render();
+</script>
+
+</body>
+</html>
