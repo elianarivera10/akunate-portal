@@ -102,7 +102,7 @@ const EXP=[
 ];
 
 const SYM=[
- {id:"cansancio",t:"Cansancio crónico",p:{suz:1,dorm:1},r:["Somnolencia y cansancio","Primeras 2 a 3 semanas: higiene del sueño con pequeños hábitos y respiración nasal. Luego, ejercicios orofaciales y orofaríngeos para que el aire pase mejor mientras duermes."]},
+ {id:"cansancio",t:"Cansancio constante",p:{suz:1,dorm:1},r:["Somnolencia y cansancio","Primeras 2 a 3 semanas: higiene del sueño con pequeños hábitos y respiración nasal. Luego, ejercicios orofaciales y orofaríngeos para que el aire pase mejor mientras duermes."]},
  {id:"somnolencia",t:"Somnolencia diurna",p:{conz:1,dorm:2},r:["Somnolencia y cansancio","Higiene del sueño con pequeños hábitos, lavado nasal y ejercicios orofaciales y orofaríngeos. Si la somnolencia es fuerte o te pasa al manejar, consulta también con un médico especialista en sueño."]},
  {id:"memoria",t:"Pérdida de la memoria",p:{suz:2},r:["Memoria y concentración","Un sueño más profundo y continuo devuelve claridad mental. Empezamos con pequeños hábitos de higiene del sueño, cierre del día sin pantallas y respiración nasal."]},
  {id:"cabeza",t:"Dolor de cabeza al despertar",p:{suz:1,alm:1},r:["Dolor de cabeza matutino","Puede relacionarse con cómo respiras de noche. Desde las primeras semanas trabajamos respiración nasal, lavado nasal y ejercicios orofaciales y orofaríngeos."]},
@@ -136,7 +136,7 @@ function render(){
 function inicio(){bar(1);return `<div class="wrap">
  <p class="eyebrow">Autotest · 3 minutos</p>
  <h1>Despierta con energía y recupera el control de tu día</h1>
- <p class="lead"><b>Para profesionales y emprendedores con cansancio crónico y somnolencia</b>, incluso si ya probaste de todo y nada te funcionó.</p>
+ <p class="lead"><b>Para profesionales y emprendedores con cansancio constante y somnolencia</b>, incluso si ya probaste de todo y nada te funcionó.</p>
  <div class="hero"><img src="${IMG.s2}" alt="Suzzzita bosteza mientras camina, cansada"></div>
  <p>Levantarte sin energía, tener sueño durante el día, despertar con dolor de cabeza o roncar fuerte pueden ser señales de un descanso de mala calidad. Reconocerlas a tiempo te permite actuar antes de que afecten tu salud, tu ánimo y tu concentración.</p>
  <div class="note"><b>Antes de empezar:</b> si tienes un diagnóstico de apnea del sueño severa o una enfermedad crónica (corazón, diabetes), consulta con tu médico antes de iniciar cualquier programa.</div>
@@ -169,7 +169,7 @@ function resultado(){bar(4);
  const top=ORDER.reduce((a,b)=>sc[b]>sc[a]?b:a,ORDER[0]);const P=PROF[top];
  const n=S.sym.size,lv=nivel(n);
  const LV=["Algunos inconvenientes","Un problema de sueño","Posible trastorno de sueño"];
- const LVT=["Marcaste pocas señales. Con buenos hábitos y constancia, tu descanso puede mejorar pronto.","Varias señales se suman. Vale la pena un plan guiado para recuperar un sueño profundo.","Marcaste muchas señales. Te recomendamos consultar con un médico especialista en sueño. Akunaté puede acompañarte como complemento, con conocimiento de tu médico."];
+ const LVT=["Reconociste pocas señales. Con buenos hábitos y constancia, tu descanso puede mejorar pronto.","Varias señales se suman. Vale la pena un plan guiado para recuperar un sueño profundo.","Reconociste muchas señales. Te recomendamos consultar con un médico especialista en sueño. Akunaté puede acompañarte como complemento, con conocimiento de tu médico."];
  const seen=new Set();const recs=SYM.filter(s=>S.sym.has(s.id)).filter(s=>!seen.has(s.r[0])&&seen.add(s.r[0]));
  const pimg=P.img?`<img src="${P.img}" alt="${esc(P.n)}">`:`<div class="ph">Conzzzilio<br>ilustración en camino</div>`;
  const msg=encodeURIComponent(`Hola, hice el autotest de Akunaté. Mi perfil: ${P.n}. Señales: ${n}. Quiero empezar mi camino a Capijama y agendar la videollamada.`);
@@ -180,7 +180,7 @@ function resultado(){bar(4);
  <div class="card"><div class="journey"><figure>${pimg}<figcaption>Hoy: ${esc(P.n)}</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img class="goal" src="${IMG.capijama}" alt="Capijama saluda con alegría"><figcaption>Meta: Capijama</figcaption></figure></div>
  <p class="muted"><b>La historia de ${esc(P.n)}.</b> ${esc(P.h)}</p>
  <p class="muted" style="text-align:center">Capijama es tu punto B: dormir profundo y despertar con energía.</p></div>
- <div class="card"><p class="eyebrow" style="color:var(--muted)">${n} ${n===1?"señal marcada":"señales marcadas"}</p>
+ <div class="card"><p class="eyebrow" style="color:var(--muted)">Tu nivel de descanso · ${n} ${n===1?"señal":"señales"}</p>
  <div class="level">${LV.map((l,i)=>`<span class="${i===lv?"on":""}">${l}</span>`).join("")}</div><p>${LVT[lv]}</p></div>
  <div class="card"><h2 style="font-size:22px">Qué haríamos contigo</h2>${recs.map(s=>`<div class="rec"><h3>${esc(s.r[0])}</h3><p class="muted">${esc(s.r[1])}</p></div>`).join("")}</div>
  <div class="card"><h2 style="font-size:22px">Así trabaja Akunaté</h2><p class="muted">Terapia miofuncional orofacial con pequeños hábitos y atención plena, en tres componentes:</p><ol class="habits"><li><b>Higiene del sueño:</b> rutinas y rituales sencillos para dormir mejor.</li><li><b>Ejercicios orofaciales y orofaríngeos:</b> lengua, labios, mejillas y garganta, para que el aire pase mejor de noche.</li><li><b>Prácticas para el día:</b> respiración, masticación, deglución, lavado nasal, hidratación y postura.</li></ol></div>
@@ -195,7 +195,7 @@ function bien(){bar(4);return `<div class="wrap">
  <h1>¡Felicitaciones! Tu descanso es óptimo</h1>
  <div class="hero"><img class="goal" src="${IMG.capijama}" alt="Capijama saluda con alegría"></div>
  <p class="muted"><b>Eres como Capijama.</b> Se levanta con energía, de buen humor y con la cabeza clara. Es el hada de la higiene del sueño y la meta de todos los personajes: demuestra que descansar bien se aprende.</p>
- <p>Akunaté está pensado para quienes luchan con cansancio crónico, ronquido o sueño durante el día. Si ya disfrutas de un descanso reparador, el programa principal no es para ti.</p>
+ <p>Akunaté está pensado para quienes luchan con cansancio constante, ronquido o sueño durante el día. Si ya disfrutas de un descanso reparador, el programa principal no es para ti.</p>
  <div class="card"><h2 style="font-size:22px">Para que sigas así</h2><ul>
  <li><b>Horario regular</b> para acostarte y levantarte, también el fin de semana.</li>
  <li><b>Cuarto oscuro, silencioso y fresco.</b></li>
