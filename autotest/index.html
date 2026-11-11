@@ -87,6 +87,7 @@ ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 <script>
 const IMG={capijama:"/assets/personajes/capijama.png",dormilon:"/assets/personajes/dormilon.png",almohadin:"/assets/personajes/almohadin.png",mosco:"/assets/personajes/mosco.png",s1:"/assets/personajes/suzzzita1.png",s2:"/assets/personajes/suzzzita2.png",s3:"/assets/personajes/suzzzita3.png",s4:"/assets/personajes/suzzzita4.png",s5:"/assets/personajes/suzzzita5.png",s6:"/assets/personajes/suzzzita6.png",conz:"/assets/personajes/conzzzilio.png"};
 const WA="573236209696";
+const SHARE="Hice este autotest de Akunaté y me acordé de ti. Son 3 minutos: descubres qué está pasando con tu sueño y te llevas 3 hábitos sencillos para descansar mejor. https://portal.akunate.com/autotest/";
 
 const EXP=[
  {id:"bien",em:"🌙",t:"Bien y descansado",d:"Duermo bien y me siento descansado al despertar."},
@@ -159,13 +160,13 @@ function detalle(){bar(2);const e=EXP.find(x=>x.id===S.exp);return `<div class="
  <div class="card"><p>${esc(e.body)}</p><ul>${e.list.map(l=>`<li>${esc(l)}</li>`).join("")}</ul></div>
  <button class="btn" data-go="sintomas">Seguir: marcar mis síntomas</button>
  <button class="link" data-go="experiencia">← Cambiar respuesta</button></div>`}
-function sintomas(){bar(3);const n=S.sym.size;return `<div class="wrap">
+function sintomas(){bar(3);const n=S.sym.size,ok=S.exp==="bien";return `<div class="wrap">
  <p class="eyebrow">Pregunta 2 de 2</p>
- <h2>¿Cuáles de estas señales vives con frecuencia?</h2>
- <p class="muted">Marca todas las que apliquen.</p>
+ <h2>${ok?"¡Qué bien! Antes de ver tu resultado, ¿te pasa alguna de estas?":"¿Cuáles de estas señales vives con frecuencia?"}</h2>
+ <p class="muted">${ok?"Marca las que te pasen con frecuencia. Si no te pasa ninguna, continúa.":"Marca todas las que apliquen."}</p>
  <div class="grid">${SYM.map(s=>`<button class="sym" data-sym="${s.id}" aria-pressed="${S.sym.has(s.id)}"><span class="ck" aria-hidden="true">${S.sym.has(s.id)?"✓":""}</span>${esc(s.t)}</button>`).join("")}</div>
- <button class="btn" data-go="resultado" ${n?"":"disabled"}>${n?`Ver mi resultado (${n})`:"Marca al menos una señal"}</button>
- <button class="link" data-go="detalle">← Volver</button></div>`}
+ ${ok&&!n?`<button class="btn" data-go="bien">No me pasa ninguna: ver mi resultado</button>`:`<button class="btn" data-go="resultado" ${n?"":"disabled"}>${n?`Ver mi resultado (${n})`:"Marca al menos una señal"}</button>`}
+ <button class="link" data-go="${ok?"experiencia":"detalle"}">← Volver</button></div>`}
 function nivel(n){return n<=3?0:n<=7?1:2}
 function resultado(){bar(4);
  const sc={suz:0,conz:0,dorm:0,mosco:0,alm:0};
@@ -197,10 +198,10 @@ function resultado(){bar(4);
  <button class="btn alt" data-reset>Repetir el autotest</button></div>`}
 function bien(){bar(4);return `<div class="wrap">
  <p class="eyebrow">Tu resultado</p>
- <h1>¡Felicitaciones! Tu descanso es óptimo</h1>
+ <h1>Ya estás en el nivel Capijama: tu reto es mantenerlo</h1>
  <div class="hero"><img class="goal" src="${IMG.capijama}" alt="Capijama saluda con alegría"></div>
  <p class="muted"><b>Eres como Capijama.</b> Se levanta con energía, de buen humor y con la cabeza clara. Es el hada de la higiene del sueño y la meta de todos los personajes: demuestra que descansar bien se aprende.</p>
- <p>Akunaté está pensado para quienes luchan con cansancio constante, ronquido o sueño durante el día. Si ya disfrutas de un descanso reparador, el programa principal no es para ti.</p>
+ <p>Duermes bien y despiertas con energía: eso ya es un logro. Ahora el reto es cuidarlo, porque el estrés, los viajes, los cambios de horario o los años pueden afectar tu descanso.</p>
  <div class="card"><h2 style="font-size:22px">Para que sigas así</h2><ul>
  <li><b>Horario regular</b> para acostarte y levantarte, también el fin de semana.</li>
  <li><b>Cuarto oscuro, silencioso y fresco.</b></li>
@@ -208,13 +209,17 @@ function bien(){bar(4);return `<div class="wrap">
  <li><b>Pantallas fuera</b> al menos una hora antes de dormir.</li>
  <li><b>Sin cafeína ni alcohol</b> en la tarde y la noche.</li>
  <li><b>Higiene nasal</b> y respiración por la nariz.</li></ul></div>
- <p class="muted">Comparte esta información con quienes amas y podrían necesitarla.</p>
+ <div class="card"><h2 style="font-size:22px">Sigue en el nivel Capijama</h2><p class="muted">Te enviamos tips para cuidar tu descanso por WhatsApp.</p>
+ <a class="btn" href="https://wa.me/${WA}?text=${encodeURIComponent("Hola, hice el autotest de Akunaté y me salió Capijama. Quiero tips para cuidar mi descanso.")}" target="_blank" rel="noopener">Quiero tips para cuidar mi descanso</a>
+ <p class="muted" style="margin-top:18px">¿Conoces a alguien que vive con cansancio? Este autotest puede ser su primer paso.</p>
+ <a class="btn alt" data-share href="https://wa.me/?text=${encodeURIComponent(SHARE)}" target="_blank" rel="noopener">Regálaselo a alguien que vive cansado</a></div>
  <button class="btn alt" data-reset>Repetir el autotest</button></div>`}
 
 function wire(){
  $v.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(!b.disabled)go(b.dataset.go)});
- $v.querySelectorAll("[data-exp]").forEach(b=>b.onclick=()=>{S.exp=b.dataset.exp;S.sym.clear();go(S.exp==="bien"?"bien":"detalle")});
+ $v.querySelectorAll("[data-exp]").forEach(b=>b.onclick=()=>{S.exp=b.dataset.exp;S.sym.clear();go(S.exp==="bien"?"sintomas":"detalle")});
  $v.querySelectorAll("[data-sym]").forEach(b=>b.onclick=()=>{const id=b.dataset.sym;S.sym.has(id)?S.sym.delete(id):S.sym.add(id);render();const el=$v.querySelector(`[data-sym="${id}"]`);el&&el.focus()});
+ $v.querySelectorAll("[data-share]").forEach(b=>b.onclick=e=>{if(navigator.share){e.preventDefault();navigator.share({title:"Autotest Akunaté",text:SHARE}).catch(()=>{})}});
  $v.querySelectorAll("[data-reset]").forEach(b=>b.onclick=()=>{S={step:"inicio",exp:null,sym:new Set()};go("inicio")});
 }
 render();
