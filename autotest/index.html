@@ -38,7 +38,7 @@ h1,h2{font-family:var(--display);font-weight:600;line-height:1.12;text-wrap:bala
 h1{font-size:34px}h2{font-size:27px}
 p{margin:0}.muted{color:var(--muted)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px}
-.hero{display:flex;justify-content:center;padding:6px 0}.hero img{height:220px;width:auto;object-fit:contain}
+.hero{display:flex;justify-content:center;padding:6px 0}.hero img{height:230px;width:230px;object-fit:contain;padding:18px;border-radius:50%;background:#f6c945}
 .opts{display:flex;flex-direction:column;gap:10px}
 button{font:inherit;color:inherit;cursor:pointer}
 .opt{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px 16px;font-weight:700}
@@ -60,7 +60,8 @@ ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .level span.on{background:var(--accent);color:var(--surface);border-color:var(--accent)}
 .journey{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;text-align:center}
 .journey figure{margin:0;display:flex;flex-direction:column;gap:6px;align-items:center}
-.journey img{height:150px;width:auto;object-fit:contain}
+.journey img{height:150px;width:150px;object-fit:contain;padding:12px;border-radius:50%;background:#f6c945}
+.hero img.goal,.journey img.goal{background:#5b45a0}
 .journey figcaption{font-weight:700;font-size:15px}
 .arrow{font-size:28px;color:var(--accent);padding-bottom:60px}
 .ph{height:150px;width:110px;border:2px dashed var(--line);border-radius:14px;display:grid;place-items:center;font-size:13px;color:var(--muted);padding:8px}
@@ -176,7 +177,7 @@ function resultado(){bar(4);
  <p class="eyebrow">Tu perfil de sueño</p>
  <h1>Tu perfil se parece al de ${esc(P.n)}</h1>
  <p class="muted"><b style="color:var(--ink)">${esc(P.k)}.</b> ${esc(P.t)}</p>
- <div class="card"><div class="journey"><figure>${pimg}<figcaption>Hoy: ${esc(P.n)}</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img src="${IMG.capijama}" alt="Capijama saluda con alegría"><figcaption>Meta: Capijama</figcaption></figure></div>
+ <div class="card"><div class="journey"><figure>${pimg}<figcaption>Hoy: ${esc(P.n)}</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img class="goal" src="${IMG.capijama}" alt="Capijama saluda con alegría"><figcaption>Meta: Capijama</figcaption></figure></div>
  <p class="muted"><b>La historia de ${esc(P.n)}.</b> ${esc(P.h)}</p>
  <p class="muted" style="text-align:center">Capijama es tu punto B: dormir profundo y despertar con energía.</p></div>
  <div class="card"><p class="eyebrow" style="color:var(--muted)">${n} ${n===1?"señal marcada":"señales marcadas"}</p>
@@ -191,7 +192,7 @@ function resultado(){bar(4);
 function bien(){bar(4);return `<div class="wrap">
  <p class="eyebrow">Tu resultado</p>
  <h1>¡Felicitaciones! Tu descanso es óptimo</h1>
- <div class="hero"><img src="${IMG.capijama}" alt="Capijama saluda con alegría"></div>
+ <div class="hero"><img class="goal" src="${IMG.capijama}" alt="Capijama saluda con alegría"></div>
  <p class="muted"><b>Eres como Capijama.</b> Se levanta con energía, de buen humor y con la cabeza clara. Es el hada de la higiene del sueño y la meta de todos los personajes: demuestra que descansar bien se aprende.</p>
  <p>Akunaté está pensado para quienes luchan con cansancio crónico, ronquido o sueño durante el día. Si ya disfrutas de un descanso reparador, el programa principal no es para ti.</p>
  <div class="card"><h2 style="font-size:22px">Para que sigas así</h2><ul>
