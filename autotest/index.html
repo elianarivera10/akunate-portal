@@ -98,7 +98,10 @@ const EXP=[
   list:["Hora fija para despertar, con margen de 30 minutos.","Luz de la mañana y movimiento breve al empezar el día.","Ritual de cierre: la última hora sin pantallas."],p:{mosco:2}},
  {id:"irregular",em:"🔁",t:"Mi sueño es irregular",d:"Mis horarios y la calidad de mi descanso cambian mucho.",
   body:"Un sueño irregular no es solo una molestia: es una señal de tu bienestar. Cuando los horarios cambian mucho, aumenta el cansancio de día y baja el rendimiento. La buena noticia: puedes recuperar el control.",
-  list:["Fines de semana muy distintos a los días de trabajo.","Siestas largas o tarde.","Noches con mucha pantalla o luz intensa."],p:{mosco:2}}
+  list:["Fines de semana muy distintos a los días de trabajo.","Siestas largas o tarde.","Noches con mucha pantalla o luz intensa."],p:{mosco:2}},
+ {id:"respira",em:"😮‍💨",t:"Ronco o me despierto con ahogo",d:"Me duermo fácil, pero de noche ronco, se me seca la boca o me despierto sin aire.",
+  body:"Cómo respiras de noche influye en cómo amaneces. El ronquido, la boca seca y el dolor de cabeza en la mañana suelen ir juntos: son señales de que el aire no pasa bien mientras duermes.",
+  list:["Señales a vigilar: ronquido fuerte, pausas al respirar, despertar con ahogo, boca seca o dolor de cabeza al despertar.","Recomendación: lavado nasal antes de dormir, dormir de lado y ejercicios orofaciales y orofaríngeos."],p:{alm:3}}
 ];
 
 const SYM=[
@@ -111,6 +114,7 @@ const SYM=[
  {id:"dolores",t:"Dolores físicos",p:{conz:2},r:["Dolores físicos","Responden más despacio: suelen mejorar desde la semana 3, cuando el sueño es más profundo. Sumamos corrección de la postura durante el día."]},
  {id:"conciliar",t:"Dificultad para conciliar o mantener el sueño",p:{mosco:2},r:["Conciliar y mantener el sueño","Higiene del sueño con pequeños hábitos, un ritual de cierre del día y prácticas de respiración y atención plena antes de dormir."]},
  {id:"peso",t:"Cambios de peso",p:{},r:["Peso corporal","El sueño estable ayuda a regular el apetito. Trabajamos horarios, hidratación y una masticación adecuada."]},
+ {id:"ahogo",t:"Despertar con ahogo",p:{alm:3},r:["Despertar con ahogo","Despertar sin aire puede ser una señal de apnea del sueño: consulta con un médico especialista en sueño. Akunaté te acompaña como complemento, con lavado nasal, posición al dormir y ejercicios orofaciales y orofaríngeos."]},
  {id:"bocaseca",t:"Boca seca al despertar",p:{alm:2},r:["Boca seca al despertar","Suele indicar que respiras por la boca de noche. Trabajamos lavado nasal, sellado de labios y ejercicios orofaciales para volver a la respiración nasal."]},
  {id:"ronquido",t:"Ronquido",p:{alm:3},r:["Ronquido","Primeras 2 a 3 semanas: dormir de lado, lavado nasal y ejercicios orofaciales y orofaríngeos, con nuestro acompañamiento."]}
 ];
@@ -182,7 +186,7 @@ function resultado(){bar(4);
  <p class="muted"><b>La historia de ${esc(P.n)}.</b> ${esc(P.h)}</p>
  <p class="muted" style="text-align:center">Capijama es tu punto B: dormir profundo y despertar con energía.</p></div>
  <div class="card"><p class="eyebrow" style="color:var(--muted)">Tu nivel de descanso · ${n} ${n===1?"señal":"señales"}</p>
- <div class="level">${LV.map((l,i)=>`<span class="${i===lv?"on":""}">${l}</span>`).join("")}</div><p>${LVT[lv]}</p></div>
+ <div class="level">${LV.map((l,i)=>`<span class="${i===lv?"on":""}">${l}</span>`).join("")}</div><p>${LVT[lv]}</p>${S.sym.has("ahogo")?`<div class="note"><b>Importante:</b> despertar con ahogo puede ser una señal de apnea del sueño. Consulta con un médico especialista en sueño; Akunaté te acompaña como complemento, con su conocimiento.</div>`:""}</div>
  <div class="card"><h2 style="font-size:22px">Qué haríamos contigo</h2>${recs.map(s=>`<div class="rec"><h3>${esc(s.r[0])}</h3><p class="muted">${esc(s.r[1])}</p></div>`).join("")}</div>
  <div class="card"><h2 style="font-size:22px">Así trabaja Akunaté</h2><p class="muted">Terapia miofuncional orofacial con pequeños hábitos y atención plena, en tres componentes:</p><ol class="habits"><li><b>Higiene del sueño:</b> rutinas y rituales sencillos para dormir mejor.</li><li><b>Ejercicios orofaciales y orofaríngeos:</b> lengua, labios, mejillas y garganta, para que el aire pase mejor de noche.</li><li><b>Prácticas para el día:</b> respiración, masticación, deglución, lavado nasal, hidratación y postura.</li></ol></div>
  <div class="card"><h2 style="font-size:22px">3 hábitos para empezar desde hoy</h2><ol class="habits"><li><b>Levántate siempre a la misma hora</b>, también el fin de semana. Tu cuerpo aprende cuándo despertar y cuándo tener sueño.</li><li><b>Recibe luz natural apenas te levantes</b>: abre la ventana o sal 5 minutos. La luz le avisa a tu cuerpo que empezó el día.</li><li><b>Apaga las pantallas una hora antes de dormir.</b> Así tu mente baja el ritmo y el sueño llega más fácil.</li></ol>
