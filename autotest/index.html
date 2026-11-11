@@ -111,6 +111,7 @@ const SYM=[
  {id:"dolores",t:"Dolores físicos",p:{conz:2},r:["Dolores físicos","Responden más despacio: suelen mejorar desde la semana 3, cuando el sueño es más profundo. Sumamos corrección de la postura durante el día."]},
  {id:"conciliar",t:"Dificultad para conciliar o mantener el sueño",p:{mosco:2},r:["Conciliar y mantener el sueño","Higiene del sueño con pequeños hábitos, un ritual de cierre del día y prácticas de respiración y atención plena antes de dormir."]},
  {id:"peso",t:"Cambios de peso",p:{},r:["Peso corporal","El sueño estable ayuda a regular el apetito. Trabajamos horarios, hidratación y una masticación adecuada."]},
+ {id:"bocaseca",t:"Boca seca al despertar",p:{alm:2},r:["Boca seca al despertar","Suele indicar que respiras por la boca de noche. Trabajamos lavado nasal, sellado de labios y ejercicios orofaciales para volver a la respiración nasal."]},
  {id:"ronquido",t:"Ronquido",p:{alm:3},r:["Ronquido","Primeras 2 a 3 semanas: dormir de lado, lavado nasal y ejercicios orofaciales y orofaríngeos, con nuestro acompañamiento."]}
 ];
 
@@ -121,7 +122,7 @@ const PROF={
  mosco:{n:"Agripino",img:IMG.mosco,k:"Mente que no se apaga",t:"Como Agripino, tu cuerpo está cansado pero tu mente no para de noche. Vas a aprender a desconectar y a darle a tu cuerpo señales claras de descanso.",h:"Llega a la cama con el cuerpo rendido, pero su mente sigue haciendo listas, repasando conversaciones y planeando mañana. Su nombre es un guiño a la agripnia, el desvelo de los griegos. Abraza su cobija esperando que la noche por fin lo deje dormir."},
  alm:{n:"Almohadín",img:IMG.almohadin,k:"Respiración nocturna",t:"Como Almohadín, tu almohada sabe que algo pasa con tu respiración de noche: ronquido, boca seca o despertares.",h:"Es la almohada que lo escucha todo: ronquidos, pausas y respiración por la boca. Por eso amanece estresado. Sueña con una noche tranquila, con el aire entrando suave por la nariz."}
 };
-const ORDER=["suz","mosco","alm","dorm","conz"];
+const ORDER=["alm","mosco","dorm","conz","suz"];
 
 let S={step:"inicio",exp:null,sym:new Set()};
 const $v=document.getElementById("view");
