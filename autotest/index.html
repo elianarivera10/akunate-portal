@@ -114,11 +114,11 @@ const SYM=[
 ];
 
 const PROF={
- suz:{n:"Suzzzita",img:IMG.s1,k:"Cansancio que roba claridad",t:"Como Suzzzita, sientes que el cansancio te quita memoria y concentración, aunque duermas tus horas."},
- conz:{n:"Conzzzilio",img:"/assets/personajes/conzzzilio.png",k:"Agotamiento físico y de ánimo",t:"Como Conzzzilio (también llamado Gruñón), el cansancio se te nota en el cuerpo y en el humor: sueño de día, dolores y poca paciencia."},
- dorm:{n:"Dormilón",img:IMG.dormilon,k:"Pesadez durante el día",t:"Como Dormilón, cargas una somnolencia que no se va. La meta es que tus noches vuelvan a ser profundas."},
- mosco:{n:"Zumbón",img:IMG.mosco,k:"Mente que no se apaga",t:"Como Zumbón, tu mente se queda zumbando de noche. Vas a aprender a desconectar y a darle a tu cuerpo señales claras de descanso."},
- alm:{n:"Almohadín",img:IMG.almohadin,k:"Respiración nocturna",t:"Como Almohadín, tu almohada sabe que algo pasa con tu respiración de noche: ronquido, boca seca o despertares."}
+ suz:{n:"Suzzzita",img:IMG.s1,k:"Cansancio que roba claridad",t:"Como Suzzzita, sientes que el cansancio te quita memoria y concentración, aunque duermas tus horas.",h:"Duerme sus horas, pero en la reunión de las 10 ya olvidó lo que iba a decir. Llena la agenda de notas para recordar lo que antes le salía solo. Lleva tres zetas en el nombre porque el sueño la persigue todo el día."},
+ conz:{n:"Conzzzilio",img:"/assets/personajes/conzzzilio.png",k:"Agotamiento físico y de ánimo",t:"Como Conzzzilio (también llamado Gruñón), el cansancio se te nota en el cuerpo y en el humor: sueño de día, dolores y poca paciencia.",h:"Antes era el más paciente del grupo. Hoy cualquier cosa lo irrita y el cuerpo le pesa desde que se levanta. Sus amigos le dicen Gruñón, pero él sabe que lo suyo es cansancio acumulado."},
+ dorm:{n:"Dormilón",img:IMG.dormilon,k:"Pesadez durante el día",t:"Como Dormilón, cargas una somnolencia que no se va. La meta es que tus noches vuelvan a ser profundas.",h:"Se le cierran los ojos después del almuerzo, en las reuniones y hasta en el carro. Duerme mucho y aun así nunca se siente descansado. Vive en pijama porque el sueño no lo suelta."},
+ mosco:{n:"Agripino",img:IMG.mosco,k:"Mente que no se apaga",t:"Como Agripino, tu cuerpo está cansado pero tu mente no para de noche. Vas a aprender a desconectar y a darle a tu cuerpo señales claras de descanso.",h:"Llega a la cama con el cuerpo rendido, pero su mente sigue haciendo listas, repasando conversaciones y planeando mañana. Su nombre es un guiño a la agripnia, el desvelo de los griegos. Abraza su cobija esperando que la noche por fin lo deje dormir."},
+ alm:{n:"Almohadín",img:IMG.almohadin,k:"Respiración nocturna",t:"Como Almohadín, tu almohada sabe que algo pasa con tu respiración de noche: ronquido, boca seca o despertares.",h:"Es la almohada que lo escucha todo: ronquidos, pausas y respiración por la boca. Por eso amanece estresado. Sueña con una noche tranquila, con el aire entrando suave por la nariz."}
 };
 const ORDER=["suz","mosco","alm","dorm","conz"];
 
@@ -177,6 +177,7 @@ function resultado(){bar(4);
  <h1>Tu perfil se parece al de ${esc(P.n)}</h1>
  <p class="muted"><b style="color:var(--ink)">${esc(P.k)}.</b> ${esc(P.t)}</p>
  <div class="card"><div class="journey"><figure>${pimg}<figcaption>Hoy: ${esc(P.n)}</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img src="${IMG.capijama}" alt="Capijama saluda con alegría"><figcaption>Meta: Capijama</figcaption></figure></div>
+ <p class="muted"><b>La historia de ${esc(P.n)}.</b> ${esc(P.h)}</p>
  <p class="muted" style="text-align:center">Capijama es tu punto B: dormir profundo y despertar con energía.</p></div>
  <div class="card"><p class="eyebrow" style="color:var(--muted)">${n} ${n===1?"señal marcada":"señales marcadas"}</p>
  <div class="level">${LV.map((l,i)=>`<span class="${i===lv?"on":""}">${l}</span>`).join("")}</div><p>${LVT[lv]}</p></div>
@@ -191,6 +192,7 @@ function bien(){bar(4);return `<div class="wrap">
  <p class="eyebrow">Tu resultado</p>
  <h1>¡Felicitaciones! Tu descanso es óptimo</h1>
  <div class="hero"><img src="${IMG.capijama}" alt="Capijama saluda con alegría"></div>
+ <p class="muted"><b>Eres como Capijama.</b> Se levanta con energía, de buen humor y con la cabeza clara. Es el hada de la higiene del sueño y la meta de todos los personajes: demuestra que descansar bien se aprende.</p>
  <p>Akunaté está pensado para quienes luchan con cansancio crónico, ronquido o sueño durante el día. Si ya disfrutas de un descanso reparador, el programa principal no es para ti.</p>
  <div class="card"><h2 style="font-size:22px">Para que sigas así</h2><ul>
  <li><b>Horario regular</b> para acostarte y levantarte, también el fin de semana.</li>
