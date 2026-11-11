@@ -66,6 +66,7 @@ ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .ph{height:150px;width:110px;border:2px dashed var(--line);border-radius:14px;display:grid;place-items:center;font-size:13px;color:var(--muted);padding:8px}
 .rec h3{margin:0;font-size:16px}.rec{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
 .rec:first-of-type{border-top:0;padding-top:0}
+.habits{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;line-height:1.45}.habits li::marker{color:var(--accent,#e9a07a);font-weight:700}
 .anchors{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .anchors div{background:var(--night-soft);border-radius:12px;padding:10px;font-size:14px;font-weight:700;line-height:1.3}
 .foot{font-size:13px;color:var(--muted);text-align:center}
@@ -107,7 +108,7 @@ const SYM=[
  {id:"pesadillas",t:"Pesadillas",p:{mosco:1},r:["Pesadillas","Higiene de sueño y práctica guiada de reescritura de sueños durante 2 a 3 semanas, con apoyo de nuestro equipo."]},
  {id:"humor",t:"Cambios de humor",p:{conz:2},r:["Ánimo y ansiedad","Herramientas de terapia cognitivo-conductual para el insomnio, rutina de horarios y pequeñas prácticas de calma antes de dormir."]},
  {id:"dolores",t:"Dolores físicos",p:{conz:2},r:["Dolores físicos","Responden más despacio: suelen mejorar desde la semana 3, cuando hay menos microdespertares y el sueño es más profundo."]},
- {id:"conciliar",t:"Dificultad para conciliar o mantener el sueño",p:{mosco:2},r:["Conciliar y mantener el sueño","Higiene de sueño, rutina de horarios y el módulo de Conzzzilia: mente en calma y ritual de cierre del día."]},
+ {id:"conciliar",t:"Dificultad para conciliar o mantener el sueño",p:{mosco:2},r:["Conciliar y mantener el sueño","Higiene de sueño, rutina de horarios y el módulo Mente en calma, con un ritual de cierre del día."]},
  {id:"peso",t:"Cambios de peso",p:{},r:["Peso corporal","El sueño estable ayuda a regular el apetito. Sumamos el módulo de nutrición antiinflamatoria y la rutina de horarios."]},
  {id:"ronquido",t:"Ronquido",p:{alm:3},r:["Ronquido","Primeras 2 a 3 semanas: dormir de lado, higiene nasal y entrenamiento miofuncional orofacial básico, con nuestro acompañamiento."]}
 ];
@@ -133,11 +134,12 @@ function render(){
 }
 function inicio(){bar(1);return `<div class="wrap">
  <p class="eyebrow">Autotest · 3 minutos</p>
- <h1>Descubre si Akunaté es para ti</h1>
+ <h1>Despierta con energía y recupera el control de tu día</h1>
+ <p class="lead"><b>Para profesionales y emprendedores con cansancio crónico y somnolencia</b>, incluso si ya probaste de todo y nada te funcionó.</p>
  <div class="hero"><img src="${IMG.s2}" alt="Suzzzita bosteza mientras camina, cansada"></div>
  <p>Levantarte sin energía, tener sueño durante el día, despertar con dolor de cabeza o roncar fuerte pueden ser señales de un descanso de mala calidad. Reconocerlas a tiempo te permite actuar antes de que afecten tu salud, tu ánimo y tu concentración.</p>
  <div class="note"><b>Antes de empezar:</b> si tienes un diagnóstico de apnea del sueño severa o una enfermedad crónica (corazón, diabetes), consulta con tu médico antes de iniciar cualquier programa.</div>
- <button class="btn" data-go="experiencia">Empezar ahora</button></div>`}
+ <button class="btn" data-go="experiencia">Descubre si Akunaté es para ti</button></div>`}
 function experiencia(){bar(2);return `<div class="wrap">
  <p class="eyebrow">Pregunta 1 de 2</p>
  <h2>¿Cómo describes tu experiencia con el sueño durante el último mes?</h2>
@@ -169,7 +171,7 @@ function resultado(){bar(4);
  const LVT=["Marcaste pocas señales. Con buenos hábitos y constancia, tu descanso puede mejorar pronto.","Varias señales se suman. Vale la pena un plan guiado para recuperar un sueño profundo.","Marcaste muchas señales. Te recomendamos una evaluación de sueño con nuestro equipo antes de empezar."];
  const seen=new Set();const recs=SYM.filter(s=>S.sym.has(s.id)).filter(s=>!seen.has(s.r[0])&&seen.add(s.r[0]));
  const pimg=P.img?`<img src="${P.img}" alt="${esc(P.n)}">`:`<div class="ph">Conzzzilio<br>ilustración en camino</div>`;
- const msg=encodeURIComponent(`Hola, hice el autotest de Akunaté. Mi perfil: ${P.n}. Señales: ${n}. Quiero agendar una videollamada.`);
+ const msg=encodeURIComponent(`Hola, hice el autotest de Akunaté. Mi perfil: ${P.n}. Señales: ${n}. Quiero empezar mi camino a Capijama y agendar la videollamada.`);
  return `<div class="wrap">
  <p class="eyebrow">Tu perfil de sueño</p>
  <h1>Tu perfil se parece al de ${esc(P.n)}</h1>
@@ -179,9 +181,10 @@ function resultado(){bar(4);
  <div class="card"><p class="eyebrow" style="color:var(--muted)">${n} ${n===1?"señal marcada":"señales marcadas"}</p>
  <div class="level">${LV.map((l,i)=>`<span class="${i===lv?"on":""}">${l}</span>`).join("")}</div><p>${LVT[lv]}</p></div>
  <div class="card"><h2 style="font-size:22px">Qué haríamos contigo</h2>${recs.map(s=>`<div class="rec"><h3>${esc(s.r[0])}</h3><p class="muted">${esc(s.r[1])}</p></div>`).join("")}</div>
- <div class="card"><h2 style="font-size:22px">Tus tres anclas diarias</h2><div class="anchors"><div>Hora fija de despertar, ±30 min</div><div>Luz de la mañana y movimiento breve</div><div>Última hora sin pantallas</div></div>
- <p class="muted">Dale a cada cambio 2 a 3 semanas de práctica antes de evaluar.</p></div>
- <a class="btn" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">Agendar videollamada con una experta</a>
+ <div class="card"><h2 style="font-size:22px">3 hábitos para empezar desde hoy</h2><ol class="habits"><li><b>Levántate siempre a la misma hora</b>, también el fin de semana. Tu cuerpo aprende cuándo despertar y cuándo tener sueño.</li><li><b>Recibe luz natural apenas te levantes</b>: abre la ventana o sal 5 minutos. La luz le avisa a tu cuerpo que empezó el día.</li><li><b>Apaga las pantallas una hora antes de dormir.</b> Así tu mente baja el ritmo y el sueño llega más fácil.</li></ol>
+ <p class="muted">Dale a cada hábito 2 o 3 semanas antes de ver si funciona.</p></div>
+ <div class="card"><h2 style="font-size:22px">De ${esc(P.n)} a Capijama: tu siguiente paso</h2><p class="muted">Conversemos por videollamada. Revisamos juntos tu resultado, te mostramos cómo sería tu camino en Akunaté durante 12 semanas y resolvemos tus dudas, sin compromiso.</p></div>
+ <a class="btn" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">Quiero empezar mi camino a Capijama</a>
  <p class="foot">WhatsApp oficial Akunaté: +57 323 620 9696</p>
  <button class="btn alt" data-reset>Repetir el autotest</button></div>`}
 function bien(){bar(4);return `<div class="wrap">
