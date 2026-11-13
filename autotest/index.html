@@ -56,8 +56,12 @@ button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--night);outline-offset:2px}
 ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .note{font-size:14px;color:var(--muted);background:var(--accent-soft);border-radius:12px;padding:12px 14px}
-.level{display:flex;gap:6px}.level span{flex:1;font-size:12px;font-weight:700;text-align:center;padding:8px 4px;border-radius:10px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
-.level span.on{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.lvlead{font-size:18px;margin:0}
+.level{display:flex;gap:6px;list-style:none;padding:0;margin:0;flex-direction:row}.level li{flex:1;display:flex;flex-direction:column;gap:4px;text-align:center;padding:8px 4px;border-radius:10px;background:var(--bg);color:var(--muted);border:1px solid var(--line);opacity:.55}
+.level li b{font-size:12px;line-height:1.25}.level li small{font-size:11px}
+.level li.on{background:var(--accent);color:var(--surface);border-color:var(--accent);opacity:1}
+.level li.on small::before{content:"Tú: ";font-weight:700}
+.scale{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;margin-top:-4px}
 .journey{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;text-align:center}
 .journey figure{margin:0;display:flex;flex-direction:column;gap:6px;align-items:center}
 .journey img{height:150px;width:150px;object-fit:contain;padding:12px;border-radius:50%;background:#f6c945}
@@ -175,6 +179,7 @@ function resultado(){bar(4);
  const top=ORDER.reduce((a,b)=>sc[b]>sc[a]?b:a,ORDER[0]);const P=PROF[top];
  const n=S.sym.size,lv=nivel(n);
  const LV=["Algunos inconvenientes","Un problema de sueño","Posible trastorno de sueño"];
+ const LVR=["1 a 3 señales","4 a 7 señales","8 o más"];
  const LVT=["Reconociste pocas señales. Con buenos hábitos y constancia, tu descanso puede mejorar pronto.","Varias señales se suman. Vale la pena un plan guiado para recuperar un sueño profundo.","Reconociste muchas señales. Te recomendamos consultar con un médico especialista en sueño. Akunaté puede acompañarte como complemento, con conocimiento de tu médico."];
  const seen=new Set();const recs=SYM.filter(s=>S.sym.has(s.id)).filter(s=>!seen.has(s.r[0])&&seen.add(s.r[0]));
  const pimg=P.img?`<img src="${P.img}" alt="${esc(P.n)}">`:`<div class="ph">Conzzzilio<br>ilustración en camino</div>`;
@@ -186,8 +191,10 @@ function resultado(){bar(4);
  <div class="card"><div class="journey"><figure>${pimg}<figcaption>Hoy: ${esc(P.n)}</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img class="goal" src="${IMG.capijama}" alt="Capijama saluda con alegría"><figcaption>Meta: Capijama</figcaption></figure></div>
  <p class="muted"><b>La historia de ${esc(P.n)}.</b> ${esc(P.h)}</p>
  <p class="muted" style="text-align:center">Capijama es tu punto B: dormir profundo y despertar con energía.</p></div>
- <div class="card"><p class="eyebrow" style="color:var(--muted)">Tu nivel de descanso · ${n} ${n===1?"señal":"señales"}</p>
- <div class="level">${LV.map((l,i)=>`<span class="${i===lv?"on":""}">${l}</span>`).join("")}</div><p>${LVT[lv]}</p>${S.sym.has("ahogo")?`<div class="note"><b>Importante:</b> despertar con ahogo puede ser una señal de apnea del sueño. Consulta con un médico especialista en sueño; Akunaté te acompaña como complemento, con su conocimiento.</div>`:""}</div>
+ <div class="card"><p class="eyebrow" style="color:var(--muted)">Tu nivel de descanso</p>
+ <p class="lvlead">Registraste <b>${n} ${n===1?"señal":"señales"} de sueño</b>. Eso te ubica en: <b>${LV[lv]}</b>.</p>
+ <ol class="level" aria-label="Escala según el número de señales">${LV.map((l,i)=>`<li class="${i===lv?"on":""}"${i===lv?' aria-current="true"':""}><b>${l}</b><small>${LVR[i]}</small></li>`).join("")}</ol>
+ <div class="scale" aria-hidden="true"><span>Menos señales</span><span>Más señales</span></div><p>${LVT[lv]}</p>${S.sym.has("ahogo")?`<div class="note"><b>Importante:</b> despertar con ahogo puede ser una señal de apnea del sueño. Consulta con un médico especialista en sueño; Akunaté te acompaña como complemento, con su conocimiento.</div>`:""}</div>
  <div class="card"><h2 style="font-size:22px">Qué haríamos contigo</h2>${recs.map(s=>`<div class="rec"><h3>${esc(s.r[0])}</h3><p class="muted">${esc(s.r[1])}</p></div>`).join("")}</div>
  <div class="card"><h2 style="font-size:22px">Así trabaja Akunaté</h2><p class="muted">Terapia miofuncional orofacial con pequeños hábitos y atención plena, en tres componentes:</p><ol class="habits"><li><b>Higiene del sueño:</b> rutinas y rituales sencillos para dormir mejor.</li><li><b>Ejercicios orofaciales y orofaríngeos:</b> lengua, labios, mejillas y garganta, para que el aire pase mejor de noche.</li><li><b>Prácticas para el día:</b> respiración, masticación, deglución, lavado nasal, hidratación y postura.</li></ol></div>
  <div class="card"><h2 style="font-size:22px">3 hábitos para empezar desde hoy</h2><ol class="habits"><li><b>Levántate siempre a la misma hora</b>, también el fin de semana. Tu cuerpo aprende cuándo despertar y cuándo tener sueño.</li><li><b>Recibe luz natural apenas te levantes</b>: abre la ventana o sal 5 minutos. La luz le avisa a tu cuerpo que empezó el día.</li><li><b>Apaga las pantallas una hora antes de dormir.</b> Así tu mente baja el ritmo y el sueño llega más fácil.</li></ol>
