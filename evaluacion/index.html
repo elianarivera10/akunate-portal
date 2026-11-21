@@ -77,6 +77,16 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night)}
 .foot{font-size:13px;color:var(--muted);text-align:center}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
 #toast.on{opacity:1}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:16px;text-align:center;color:var(--muted);font-size:15px;cursor:pointer}
+.drop.over,.slot.over{border-color:var(--accent);background:var(--accent-soft)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.slot{background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.slot .ttl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.slot .sub{font-size:13px;font-weight:700;margin-top:-6px}
+.pic{position:relative;aspect-ratio:3/4;border:2px dashed var(--line);border-radius:10px;display:grid;place-items:center;font-size:13px;color:var(--muted);cursor:pointer;overflow:hidden;background:var(--surface);text-align:center;padding:6px}
+.pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pic .x{position:absolute;top:6px;right:6px;z-index:2;font:700 13px var(--body);background:var(--ink);color:var(--bg);border:0;border-radius:99px;padding:4px 9px;cursor:pointer}
+.slot textarea{min-height:56px;font-size:14px}
 #printout{display:none}
 @media (max-width:520px){.seg{grid-template-columns:repeat(2,1fr)}h1{font-size:28px}}
 @media print{
@@ -85,6 +95,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night)}
   #printout{display:block;font:12pt/1.5 Georgia,serif;color:#000}
   #printout h1{font-size:20pt;margin:0 0 4pt}
   #printout pre{white-space:pre-wrap;font:11pt/1.5 Arial,sans-serif;margin:0}
+  #printout h2{font:700 14pt Arial,sans-serif;margin:16pt 0 8pt;break-after:avoid}
+  .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+  .pcard{break-inside:avoid;border:1px solid #ccc;border-radius:6pt;overflow:hidden;font:10pt/1.4 Arial,sans-serif}
+  .pcard img{display:block;width:100%;height:220pt;object-fit:contain;background:#f3f3f3}
+  .pcard div{padding:6pt 8pt}.pcard b{display:block;color:#a8532a;font-size:9pt;text-transform:uppercase;letter-spacing:.04em}
 }
 </style>
 </head>
@@ -111,9 +126,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night)}
   <section class="card" id="datos">
     <div><p class="eyebrow">1 · Datos</p><h2>Datos del miembro</h2></div>
     <div class="fields">
-      <label class="f">Nombre<input type="text" data-k="nombre" autocomplete="off"></label>
-      <label class="f">Fecha<input type="date" data-k="fecha"></label>
-      <label class="f">Edad (años)<input type="number" data-k="edad" min="0" max="120" inputmode="numeric"></label>
+      <label class="f wide">Nombre completo<input type="text" data-k="nombre" autocomplete="off"></label>
+      <label class="f">Fecha de la evaluación<input type="date" data-k="fecha"></label>
+      <label class="f">Fecha de nacimiento<input type="date" data-k="fnac"></label>
+      <label class="f">Lugar de nacimiento<input type="text" data-k="lnac" autocomplete="off"></label>
+      <label class="f">Edad (años; se calcula con la fecha de nacimiento)<input type="number" data-k="edad" min="0" max="120" inputmode="numeric"></label>
       <label class="f">Sexo<select data-k="sexo"><option value=""></option><option value="F">Femenino</option><option value="M">Masculino</option></select></label>
       <label class="f">Ocupación<input type="text" data-k="ocupacion" autocomplete="off"></label>
       <label class="f">Peso (kg)<input type="number" data-k="peso" step="0.1" inputmode="decimal"></label>
@@ -121,6 +138,21 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night)}
       <label class="f">Circunferencia de cuello (cm)<input type="number" data-k="cuello" step="0.5" inputmode="decimal"></label>
     </div>
     <p class="calc" id="imc">IMC: completa peso y talla.</p>
+    <div class="fields">
+      <label class="f">Presión arterial sistólica (mmHg)<input type="number" data-k="pas" inputmode="numeric"></label>
+      <label class="f">Presión arterial diastólica (mmHg)<input type="number" data-k="pad" inputmode="numeric"></label>
+      <label class="f">Saturación de oxígeno (SpO₂ %)<input type="number" data-k="spo2" min="50" max="100" inputmode="numeric"></label>
+    </div>
+    <p class="calc" id="signos">Presión arterial y saturación: sin registrar.</p>
+    <h3>Comorbilidades</h3>
+    <div class="slots" id="comor"></div>
+    <h3>Valoraciones previas</h3>
+    <div class="fields">
+      <label class="f">Valoración por otorrinolaringología (ORL)<select data-k="orl"><option></option><option>Sí</option><option>No</option><option>No recuerda</option></select></label>
+      <label class="f">¿Cuándo y qué encontraron? (ORL)<input type="text" data-k="orlDet" autocomplete="off"></label>
+      <label class="f">Valoración odontológica<select data-k="odon"><option></option><option>Sí</option><option>No</option><option>No recuerda</option></select></label>
+      <label class="f">¿Cuándo y qué encontraron? (odontología, ortodoncia, prótesis)<input type="text" data-k="odonDet" autocomplete="off"></label>
+    </div>
     <div class="fields">
       <label class="f wide">Motivo de consulta (en sus palabras)<textarea data-k="motivo"></textarea></label>
       <label class="f wide">Antecedentes médicos y diagnósticos (p. ej. cáncer, AOS, HTA, cirugías)<textarea data-k="antecedentes"></textarea></label>
@@ -171,10 +203,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night)}
 
   <section class="card" id="mio">
     <div><p class="eyebrow">6 · Observación miofuncional (MBGR condensado)</p><h2>Fotografías y observación</h2></div>
-    <h3>Fotografías extraorales</h3>
-    <div class="checks" id="foto-ext"></div>
-    <h3>Fotografías intraorales</h3>
-    <div class="checks" id="foto-int"></div>
+    <h3>Registro fotográfico</h3>
+    <p class="muted" style="font-size:14px">Arrastra las fotos a cada casilla o tócala para tomarla o elegirla. También puedes soltar varias a la vez aquí abajo y se acomodan en orden en las casillas vacías. Las fotos se quedan solo en este navegador y salen en el PDF de la devolución.</p>
+    <div class="drop" id="dropall" tabindex="0" role="button">Suelta aquí varias fotos a la vez, o toca para elegirlas</div>
+    <input type="file" id="fileall" accept="image/*" multiple hidden>
+    <div class="slots" id="slots"></div>
     <h3>Mediciones</h3>
     <div class="fields">
       <label class="f">Tercio medio facial (mm)<input type="number" data-k="tercioMedio" inputmode="decimal"></label>
@@ -232,12 +265,13 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night)}
 
   <p class="foot">Tamizaje orientativo, no diagnóstico. Akunaté® es un programa no clínico · Dra. Eliana Rivera</p>
 </div>
-<div id="printout"><h1>Akunaté® · Evaluación de línea base</h1><pre id="printtext"></pre></div>
+<div id="printout"><h1>Akunaté® · Evaluación de línea base</h1><pre id="printtext"></pre><div id="printphotos"></div></div>
 <div id="toast" role="status"></div>
 
 <script>
 "use strict";
 const KEY="akunate-eval-borrador";
+const COMOR=[["Metabólicas","p. ej. diabetes, obesidad, hipotiroidismo, dislipidemia"],["Cardiovasculares","p. ej. hipertensión, arritmia, infarto"],["Pulmonares","p. ej. asma, EPOC"],["Psiquiátricas / psicológicas","p. ej. ansiedad, depresión"],["Neurológicas","p. ej. ACV, migraña, Parkinson"],["Otras","p. ej. cáncer, reflujo, alergias"]];
 let S={};
 try{S=JSON.parse(sessionStorage.getItem(KEY)||"{}")||{}}catch(e){S={}}
 function save(){try{sessionStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -265,8 +299,21 @@ const AT=[
  ["Funcionamiento físico y mental durante el día",["Normal","Ligeramente disminuido","Marcadamente disminuido","Muy disminuido"]],
  ["Somnolencia durante el día",["Ninguna","Leve","Considerable","Intensa"]]];
 const EAT=["Mi problema para tragar me ha llevado a perder peso","Mi problema para tragar interfiere con mi capacidad para comer fuera de casa","Tragar líquidos me supone un esfuerzo extra","Tragar sólidos me supone un esfuerzo extra","Tragar pastillas me supone un esfuerzo extra","Tragar es doloroso","El placer de comer se ve afectado por mi problema para tragar","Cuando trago, la comida se pega en mi garganta","Toso cuando como","Tragar es estresante"];
-const FEXT=["Frontal en reposo","Frontal con sonrisa","Perfil derecho","Perfil izquierdo","Submentoniana / cuello","Postura corporal frontal","Postura corporal lateral"];
-const FINT=["Oclusión frontal","Oclusión lateral derecha","Oclusión lateral izquierda","Arcada superior (oclusal)","Arcada inferior (oclusal)","Lengua en reposo y protruida","Frenillo lingual (lengua elevada)","Paladar duro","Orofaringe (Mallampati / amígdalas)"];
+const FOTOS=[
+ ["Registro facial frontal","Sello labial en reposo y tono muscular"],
+ ["Registro lateral sagital","Eje craneocervical y vía aérea"],
+ ["Registro postural frontal","Alineación escapular y patrón respiratorio"],
+ ["Eje postural corporal global","Alineación cérvico-torácica (lateral)"],
+ ["Dinámica buccinadora","Competencia muscular y tensión mentoniana"],
+ ["Exploración intraoral posterior","Velo del paladar y amígdalas"],
+ ["Maniobra de fonación / reflejos","Dinámica lingual en emisión"],
+ ["Posición lingual en reposo (FTP)","Friedman Tongue Position y dorso lingual"],
+ ["Maniobra funcional de bostezo","Potencial de elevación velar"],
+ ["Signos de parafunción nocturna","Mucosa yugal y tejido oral"],
+ ["Oclusión","Frontal y laterales"],
+ ["Frenillo lingual","Lengua elevada / apertura con lengua en papila"]];
+let P={};try{P=JSON.parse(sessionStorage.getItem(KEY+"-fotos")||"{}")||{}}catch(e){P={}}
+function saveP(){try{sessionStorage.setItem(KEY+"-fotos",JSON.stringify(P));return true}catch(e){toast("Memoria llena: la foto se ve pero se pierde si recargas la página");return false}}
 const DEG=["Se atora o tose con su propia saliva","Sensación de ahogo al tragar","Tos o atoramiento con líquidos","Tos o atoramiento con sólidos","Voz húmeda o gorgoteo después de tragar","Sensación de comida retenida en la garganta","Pérdida de peso no intencional","Neumonías o infecciones respiratorias repetidas"];
 
 function seg(key,opts,cls){
@@ -283,7 +330,24 @@ SB.forEach(([k,t],i)=>$("sb-q").appendChild(qrow(k+" · "+t,seg("sb"+i,[["1","S�
 EP.forEach((t,i)=>$("ep-q").appendChild(qrow((i+1)+". "+t,seg("ep"+i,EPO.map((o,v)=>[String(v),"<b>"+v+"</b>"+o])))));
 AT.forEach(([t,o],i)=>$("at-q").appendChild(qrow((i+1)+". "+t,seg("at"+i,o.map((x,v)=>[String(v),"<b>"+v+"</b>"+x])))));
 EAT.forEach((t,i)=>$("eat-q").appendChild(qrow((i+1)+". "+t,seg("eat"+i,[0,1,2,3,4].map(v=>[String(v),"<b>"+v+"</b>"])))));
-checks("foto-ext",FEXT,"fe");checks("foto-int",FINT,"fi");checks("deg",DEG,"dg");
+checks("deg",DEG,"dg");
+COMOR.forEach(([t,ej],i)=>{const d=document.createElement("div");d.className="slot";d.innerHTML='<label class="ck" style="background:var(--surface)"><input type="checkbox" data-k="cm'+i+'"><span></span></label><input type="text" data-k="cmd'+i+'" autocomplete="off">';d.querySelector("span").textContent=t;d.querySelector('input[type=text]').placeholder="¿Cuáles? "+ej;$("comor").appendChild(d)});
+function shrink(file){return new Promise((ok,no)=>{const u=URL.createObjectURL(file);const im=new Image();im.onload=()=>{const m=1100,k=Math.min(1,m/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",0.72))};im.onerror=()=>{URL.revokeObjectURL(u);no()};im.src=u})}
+async function putPhoto(i,file){if(!file||!/^image\//.test(file.type))return;try{P["f"+i]=await shrink(file);saveP();drawSlot(i);update()}catch(e){toast("No se pudo leer esa imagen")}}
+function drawSlot(i){const pic=document.querySelector('.slot[data-i="'+i+'"] .pic');pic.innerHTML="";if(P["f"+i]){const im=document.createElement("img");im.src=P["f"+i];im.alt=FOTOS[i][0];const x=document.createElement("button");x.type="button";x.className="x";x.textContent="Quitar";x.onclick=e=>{e.stopPropagation();delete P["f"+i];saveP();drawSlot(i);update()};pic.append(im,x)}else pic.textContent="Arrastra o toca para agregar foto"}
+function dnd(el,onFiles){["dragenter","dragover"].forEach(t=>el.addEventListener(t,e=>{e.preventDefault();el.classList.add("over")}));["dragleave","drop"].forEach(t=>el.addEventListener(t,e=>{e.preventDefault();el.classList.remove("over")}));el.addEventListener("drop",e=>onFiles([...e.dataTransfer.files]))}
+FOTOS.forEach(([t,sub],i)=>{const d=document.createElement("div");d.className="slot";d.dataset.i=i;
+  d.innerHTML='<span class="ttl"></span><span class="sub"></span><div class="pic" role="button" tabindex="0"></div><input type="file" accept="image/*" hidden><textarea placeholder="Hallazgo en sesión" data-k="hz'+i+'"></textarea>';
+  d.querySelector(".ttl").textContent=(i+1)+". "+t;d.querySelector(".sub").textContent=sub;
+  const inp=d.querySelector("input"),pic=d.querySelector(".pic");
+  pic.onclick=()=>inp.click();pic.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();inp.click()}};
+  inp.onchange=()=>{putPhoto(i,inp.files[0]);inp.value=""};
+  dnd(d,fs=>putPhoto(i,fs[0]));
+  $("slots").appendChild(d);drawSlot(i)});
+async function fillMany(fs){fs=fs.filter(f=>/^image\//.test(f.type));let i=0;for(const f of fs){while(i<FOTOS.length&&P["f"+i])i++;if(i>=FOTOS.length){toast("No quedan casillas vacías");break}await putPhoto(i,f);i++}}
+dnd($("dropall"),fillMany);$("dropall").onclick=()=>$("fileall").click();$("dropall").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("fileall").click()}};
+$("fileall").onchange=()=>{fillMany([...$("fileall").files]);$("fileall").value=""};
+window.addEventListener("dragover",e=>e.preventDefault());window.addEventListener("drop",e=>e.preventDefault());
 
 document.querySelectorAll("[data-k]").forEach(el=>{
   const k=el.dataset.k;
@@ -323,8 +387,14 @@ const SBL=["Riesgo bajo","Riesgo intermedio","Riesgo alto"],EPL=["Somnolencia no
 const EATL=["Sin riesgo aparente de disfagia","Posible riesgo de disfagia"];
 const CLS=[["ok","warn","alert"],["ok","warn","alert","alert"],["ok","warn"]];
 
+function edadDe(f){if(!f)return null;const[y,m,d]=f.split("-").map(Number);const h=new Date();let e=h.getFullYear()-y;if(h.getMonth()+1<m||(h.getMonth()+1===m&&h.getDate()<d))e--;return e>=0&&e<130?e:null}
 function update(){
+  const ef=edadDe(S.fnac);if(ef!=null&&String(S.edad)!==String(ef)){S.edad=String(ef);document.querySelector('[data-k="edad"]').value=ef}
   const r=calc();save();
+  const pas=num(S.pas),pad=num(S.pad),sp=num(S.spo2),sg=[];
+  if(pas&&pad)sg.push("PA "+pas+"/"+pad+" mmHg"+(pas>=140||pad>=90?" (elevada: sugerir control con su médico)":""));
+  if(sp)sg.push("SpO₂ "+sp+"%"+(sp<94?" (baja: sugerir valoración médica)":""));
+  $("signos").textContent=sg.length?sg.join(" · "):"Presión arterial y saturación: sin registrar.";
   $("imc").textContent=r.imc?"IMC: "+r.imc.toFixed(1)+" kg/m²"+(r.imc>35?" (mayor de 35)":""):"IMC: completa peso y talla.";
   $("sb-n").textContent=r.sb.s+"/8";$("nav-sb").textContent=r.sb.c?r.sb.s:"–";
   if(r.sb.c){pill("sb-p",SBL[r.sbLevel]+(r.sb.c<8?" ("+r.sb.c+"/8 resp.)":""),CLS[0][r.sbLevel]);onRange("sb-r",r.sb.s>=5?2:r.sb.s>=3?1:0)}else{pill("sb-p","Sin responder");onRange("sb-r",-1)}
@@ -346,7 +416,7 @@ function flagsOf(r){
   if(r.at.c&&r.atLevel===1)f.push(["warn","Atenas ≥ 6: señales compatibles con insomnio. Trabajar higiene del sueño y, si persisten, consultar con un profesional en sueño."]);
   const eatAlt=r.eat.c&&r.eatLevel===1;
   if(eatAlt||r.deg.length)f.push(["alert",(eatAlt?"EAT-10 = "+r.eat.s+" (3 o más): posible riesgo de disfagia":"")+(eatAlt&&r.deg.length?". ":"")+(r.deg.length?"Señales de alerta en deglución ("+r.deg.length+")":"")+". Recomendar valoración clínica de la deglución, incluida una prueba con espesantes (volumen-viscosidad), en una sesión posterior. No atribuir estas señales a la apnea sin esa valoración."]);
-  if(S.dxmedico||(S.antecedentes||"").trim())f.push(["warn","Antecedentes médicos: Akunaté solo como coadyuvante, con conocimiento de su médico tratante y sin reemplazar su tratamiento."]);
+  if(S.dxmedico||(S.antecedentes||"").trim()||COMOR.some((_,i)=>S["cm"+i]))f.push(["warn","Antecedentes médicos: Akunaté solo como coadyuvante, con conocimiento de su médico tratante y sin reemplazar su tratamiento."]);
   if(!f.length)f.push(["ok","Sin alertas por ahora. Completa los cuestionarios para afinar el resumen."]);
   return f}
 function renderFlags(r){const box=$("flags");box.innerHTML="";flagsOf(r).forEach(([c,t])=>{const d=document.createElement("div");d.className="flag "+c;d.textContent=t;box.appendChild(d)})}
@@ -359,9 +429,15 @@ function build(){
   L.push("Fecha: "+fechaLarga(S.fecha)+" · Akunaté® · Dra. Eliana Rivera");
   L.push("");
   L.push("## Datos");
+  L.push("- Fecha de nacimiento: "+(S.fnac?fechaLarga(S.fnac):"—")+" · Lugar de nacimiento: "+v(S.lnac));
   L.push("- Edad: "+v(S.edad)+" años · Sexo: "+(S.sexo==="M"?"Masculino":S.sexo==="F"?"Femenino":"—")+" · Ocupación: "+v(S.ocupacion));
   L.push("- Peso: "+v(S.peso)+" kg · Talla: "+v(S.talla)+" cm · IMC: "+(r.imc?r.imc.toFixed(1):"—")+" · Cuello: "+v(S.cuello)+" cm");
+  L.push("- Presión arterial: "+(S.pas&&S.pad?S.pas+"/"+S.pad+" mmHg":"—")+" · SpO₂: "+(S.spo2?S.spo2+"%":"—"));
   L.push("- Motivo de consulta: "+v(S.motivo));
+  const cms=COMOR.map(([t],i)=>S["cm"+i]||(S["cmd"+i]||"").trim()?t+": "+v(S["cmd"+i]):null).filter(Boolean);
+  L.push("- Comorbilidades: "+(cms.length?"":"ninguna referida"));cms.forEach(c=>L.push("  - "+c));
+  L.push("- Valoración ORL previa: "+v(S.orl)+((S.orlDet||"").trim()?" · "+S.orlDet.trim():""));
+  L.push("- Valoración odontológica previa: "+v(S.odon)+((S.odonDet||"").trim()?" · "+S.odonDet.trim():""));
   L.push("- Antecedentes médicos: "+v(S.antecedentes));
   L.push("- Medicamentos: "+v(S.medicamentos)+" · Médico tratante: "+v(S.medico));
   L.push("- Autorización de fotos y registro: "+(S.consentimiento?"Sí":"Pendiente"));
@@ -374,9 +450,9 @@ function build(){
   L.push("- EAT-10 (deglución): "+(r.eat.c?r.eat.s+"/40 · "+EATL[r.eatLevel]+(r.eat.c<10?" · "+r.eat.c+"/10 respondidos":""):"no aplicado"));
   L.push("");
   L.push("## Observación miofuncional (MBGR condensado)");
-  const fe=FEXT.filter((_,i)=>S["fe"+i]),fi=FINT.filter((_,i)=>S["fi"+i]);
-  L.push("- Fotos extraorales ("+fe.length+"/"+FEXT.length+"): "+(fe.join(", ")||"—"));
-  L.push("- Fotos intraorales ("+fi.length+"/"+FINT.length+"): "+(fi.join(", ")||"—"));
+  const nf=FOTOS.filter((_,i)=>P["f"+i]).length;
+  L.push("- Registro fotográfico: "+nf+"/"+FOTOS.length+" fotos");
+  FOTOS.forEach(([t],i)=>{if(P["f"+i]||(S["hz"+i]||"").trim())L.push("  - "+(i+1)+". "+t+": "+v(S["hz"+i]))});
   L.push("- Tercio medio: "+v(S.tercioMedio)+" mm · Tercio inferior: "+v(S.tercioInf)+" mm");
   L.push("- Apertura máxima: "+v(S.apMax)+" mm · Con lengua en papila: "+v(S.apLengua)+" mm"+(r.fren!=null?" · Proporción: "+r.fren+"%":""));
   L.push("- Labios en reposo: "+v(S.labios)+" · Lengua en reposo: "+v(S.lenguaReposo)+" · Modo respiratorio: "+v(S.modoResp));
@@ -406,9 +482,14 @@ function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");setTi
 function out(){return $("out").value||build()}
 $("regen").onclick=()=>{$("out").value=build();toast("Resumen actualizado")};
 $("copy").onclick=async()=>{if(!$("out").value)$("out").value=build();try{await navigator.clipboard.writeText($("out").value);toast("Copiado. Pégalo en Notion")}catch(e){$("out").select();document.execCommand("copy");toast("Copiado")}};
-$("pdf").onclick=()=>{if(!$("out").value)$("out").value=build();$("printtext").textContent=$("out").value.replace(/^# .*\n/,"").replace(/^## /gm,"").replace(/^- /gm,"• ");window.print()};
+$("pdf").onclick=()=>{if(!$("out").value)$("out").value=build();$("printtext").textContent=$("out").value.replace(/^# .*\n/,"").replace(/^## /gm,"").replace(/^(\s*)- /gm,"$1• ");
+  const pp=$("printphotos");pp.innerHTML="";const has=FOTOS.map((f,i)=>[f,i]).filter(([,i])=>P["f"+i]);
+  if(has.length){const h=document.createElement("h2");h.textContent="Registro fotográfico y mapeo biomecánico";const g=document.createElement("div");g.className="pgrid";
+    has.forEach(([[t,sub],i])=>{const c=document.createElement("div");c.className="pcard";const im=document.createElement("img");im.src=P["f"+i];const tx=document.createElement("div");const b=document.createElement("b");b.textContent=(i+1)+". "+t;const sp=document.createElement("span");sp.textContent=(S["hz"+i]||"").trim()?"Hallazgo en sesión: "+S["hz"+i].trim():sub;tx.append(b,sp);c.append(im,tx);g.appendChild(c)});
+    pp.append(h,g)}
+  setTimeout(()=>window.print(),200)};
 $("dl").onclick=()=>{if(!$("out").value)$("out").value=build();const b=new Blob([$("out").value],{type:"text/markdown;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="Akunate-linea-base-"+(S.nombre||"miembro").trim().replace(/\s+/g,"-")+"-"+(S.fecha||"")+".md";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
-$("reset").onclick=()=>{if(!confirm("¿Borrar todos los datos de esta evaluación? Asegúrate de haber copiado el resumen."))return;try{sessionStorage.removeItem(KEY)}catch(e){}location.reload()};
+$("reset").onclick=()=>{if(!confirm("¿Borrar todos los datos de esta evaluación? Asegúrate de haber copiado el resumen."))return;try{sessionStorage.removeItem(KEY);sessionStorage.removeItem(KEY+"-fotos")}catch(e){}location.reload()};
 $("out").addEventListener("focus",()=>{if(!$("out").value)$("out").value=build()});
 update();
 </script>
