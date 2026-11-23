@@ -92,7 +92,7 @@ header .btn{padding:10px 16px;font-size:15px}
 /* historia */
 .story{display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:center}
 .video{aspect-ratio:9/16;max-height:560px;width:100%;max-width:315px;margin:0 auto;border-radius:18px;overflow:hidden;background:#000}
-.video iframe{width:100%;height:100%;border:0}
+.video video{width:100%;height:100%;object-fit:cover;display:block}
 blockquote{margin:0;font-family:var(--display);font-size:clamp(22px,3vw,28px);line-height:1.3}
 
 /* creadora */
@@ -264,7 +264,7 @@ footer .in{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 <section>
   <div class="in story">
     <div class="video">
-      <iframe src="https://www.youtube-nocookie.com/embed/AEkikPTmUjQ" title="Historia de Marcos" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <video src="/videos/historia-de-marcos.mp4" poster="/videos/historia-de-marcos.jpg" controls playsinline preload="none" title="Historia de Marcos"></video>
     </div>
     <div style="display:flex;flex-direction:column;gap:18px">
       <p class="eyebrow">Historias reales</p>
@@ -278,7 +278,9 @@ footer .in{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 <!-- 7. CREADORA -->
 <section class="alt-bg">
   <div class="in creator">
+    <!-- Video de Eliana explicando Akunaté: cuando exista, guardar en /videos/eliana-akunate.mp4 (+ .jpg) y quitar "hidden" de .eliana-video y poner "hidden" en .avatar -->
     <div class="avatar" aria-hidden="true">ER</div>
+    <div class="video eliana-video" hidden><video src="/videos/eliana-akunate.mp4" poster="/videos/eliana-akunate.jpg" controls playsinline preload="none" title="Eliana explica Akunaté"></video></div>
     <div>
       <p class="eyebrow">Quién está detrás</p>
       <h2>Eliana Rivera, creadora de Akunaté</h2>
