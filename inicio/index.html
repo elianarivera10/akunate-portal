@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Akunaté® · Recupera tu vida. Controla tu descanso.</title>
+<meta name="description" content="Programa de 12 semanas para profesionales y emprendedores con cansancio crónico y somnolencia. Empieza con un autotest gratuito de 3 minutos.">
+<meta property="og:title" content="Akunaté® · Despierta con energía y recupera el control de tu día">
+<meta property="og:description" content="Haz el autotest gratuito de 3 minutos y descubre qué está pasando con tu sueño.">
+<meta property="og:image" content="https://portal.akunate.com/assets/og.png">
+<link rel="icon" href="/assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
+<style>
+:root{
+  --bg:#f6f3ee; --surface:#ffffff; --ink:#16263f; --muted:#56606f; --line:#e6dfd4;
+  --accent:#a8532a; --accent-soft:#fbf0e8; --night:#5b45a0; --night-soft:#efe9fa; --ok:#2f7d4f; --sun:#f6c945;
+  --display:'Newsreader', Georgia, serif; --body:'Atkinson Hyperlegible', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121a28; --surface:#1b2536; --ink:#eef1f6; --muted:#a9b3c2; --line:#2c3850;
+  --accent:#e9a07a; --accent-soft:#3a2a24; --night:#b9a6f2; --night-soft:#2a2450; --ok:#7fc79a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121a28; --surface:#1b2536; --ink:#eef1f6; --muted:#a9b3c2; --line:#2c3850;
+  --accent:#e9a07a; --accent-soft:#3a2a24; --night:#b9a6f2; --night-soft:#2a2450; --ok:#7fc79a; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+.in{max-width:1040px;margin:0 auto;padding:0 max(16px, env(safe-area-inset-left, 0px))}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;text-wrap:balance;margin:0}
+h1{font-size:clamp(36px,6vw,58px)}h2{font-size:clamp(28px,4vw,38px)}h3{font-size:22px}
+p{margin:0}.muted{color:var(--muted)}
+a{color:inherit}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);border-radius:14px;padding:16px 22px;font-weight:700;text-decoration:none;text-align:center}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn.sun{background:var(--accent);color:#fff}
+:focus-visible{outline:3px solid var(--night);outline-offset:2px}
+section{padding:64px 0}
+.sec-head{display:flex;flex-direction:column;gap:12px;max-width:640px;margin-bottom:32px}
+
+/* header */
+header{padding:18px 0}
+header .in{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:22px;text-decoration:none}
+.brand img{width:36px;height:36px;border-radius:50%;background:#fff}
+header .btn{padding:10px 16px;font-size:15px}
+
+/* hero */
+.hero{padding:32px 0 64px}
+.hero .in{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:20px}
+.hero-copy .lead{font-size:19px;color:var(--muted);max-width:52ch}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.small{font-size:14px;color:var(--muted)}
+.hero-art{position:relative;display:flex;justify-content:center}
+.hero-art .disc{width:min(340px,80vw);aspect-ratio:1;border-radius:50%;background:var(--sun);display:grid;place-items:center}
+.hero-art img{height:78%;object-fit:contain}
+.badge{position:absolute;bottom:6%;left:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:14px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+
+/* señales */
+.signals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.sig{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;font-weight:700}
+.sig span{font-size:24px;line-height:1}
+.callout{margin-top:24px;background:var(--night-soft);border-radius:18px;padding:20px 22px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.callout p{font-size:18px;max-width:56ch}
+
+/* qué es */
+.alt-bg{background:var(--surface);border-block:1px solid var(--line)}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pill{border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.pill .n{font-family:var(--display);font-size:15px;color:var(--accent);font-weight:600}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.fact{background:var(--accent-soft);border-radius:99px;padding:8px 16px;font-weight:700;font-size:15px}
+
+/* ruta */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
+.step{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.step::before{counter-increment:s;content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700}
+.step .tagline{font-size:13px;font-weight:700;color:var(--ok);text-transform:uppercase;letter-spacing:.06em}
+
+/* personajes */
+.cast{display:flex;gap:8px;align-items:flex-end;justify-content:space-between;flex-wrap:nowrap;overflow:hidden;padding:8px 0}
+.cast figure{margin:0;flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
+.cast img{height:120px;max-width:100%;object-fit:contain}
+.cast figcaption{font-size:13px;font-weight:700;text-align:center}
+.cast .goal img{height:150px}
+.cast .goal figcaption{color:var(--accent)}
+.arrow{align-self:center;color:var(--muted);font-size:22px;flex:none}
+
+/* historia */
+.story{display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:center}
+.video{aspect-ratio:9/16;max-height:560px;width:100%;max-width:315px;margin:0 auto;border-radius:18px;overflow:hidden;background:#000}
+.video iframe{width:100%;height:100%;border:0}
+blockquote{margin:0;font-family:var(--display);font-size:clamp(22px,3vw,28px);line-height:1.3}
+
+/* creadora */
+.creator{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
+.avatar{width:120px;height:120px;border-radius:50%;background:var(--night-soft);display:grid;place-items:center;font-family:var(--display);font-size:42px;color:var(--night)}
+.creator ul{margin:12px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+
+/* honestidad */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.box{border-radius:18px;padding:22px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:12px}
+.box ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.box.yes h3::before{content:"✓ ";color:var(--ok)}
+.box.no h3::before{content:"• ";color:var(--accent)}
+.medical{margin-top:16px;background:var(--accent-soft);border-radius:18px;padding:20px 22px}
+
+/* precio */
+.price{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.plan{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:14px}
+.plan.main{border-color:var(--ink)}
+.amount{font-family:var(--display);font-size:46px;font-weight:600;line-height:1}
+.amount small{font-family:var(--body);font-size:16px;color:var(--muted);font-weight:400}
+.plan ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.plan .btn{margin-top:auto}
+
+/* faq */
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 20px}
+details+details{margin-top:10px}
+summary{font-weight:700;cursor:pointer}
+details p{margin-top:10px;color:var(--muted)}
+
+/* final */
+.final{text-align:center}
+.final .in{display:flex;flex-direction:column;align-items:center;gap:18px}
+.final img{height:160px}
+footer{padding:32px 0 48px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+footer .in{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+
+@media (max-width:820px){
+  .hero .in,.story,.two,.price{grid-template-columns:1fr}
+  .hero-art{order:-1}
+  .signals,.pillars{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .creator{grid-template-columns:1fr}
+  section{padding:48px 0}
+  .cast img{height:72px}.cast .goal img{height:96px}.arrow{display:none}
+}
+@media (max-width:520px){
+  .steps{grid-template-columns:1fr}
+  .ctas .btn{width:100%}
+  header .btn{display:none}
+  .cast figcaption{font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="in">
+    <a class="brand" href="#"><img src="/assets/logo.png" alt="">Akunaté®</a>
+    <a class="btn" href="/autotest/">Haz el autotest gratis</a>
+  </div>
+</header>
+
+<main>
+<!-- 1. HERO -->
+<section class="hero">
+  <div class="in">
+    <div class="hero-copy">
+      <p class="eyebrow">Recupera tu vida. Controla tu descanso.</p>
+      <h1>Despierta con energía y recupera el control de tu día</h1>
+      <p class="lead">Ayudamos a profesionales y emprendedores con cansancio crónico y somnolencia excesiva a que despierten con energía y recuperen el control sobre su día, su rendimiento y su vida, incluso si ya probaron todo y nada les funcionó.</p>
+      <div class="ctas">
+        <a class="btn sun" href="/autotest/">Descubre qué pasa con tu sueño · 3 min</a>
+        <a class="btn alt" href="#como-funciona">Cómo funciona</a>
+      </div>
+      <p class="small">Autotest gratuito. Al final sabrás qué personaje del sueño eres y te llevas 3 hábitos sencillos para descansar mejor desde hoy.</p>
+    </div>
+    <div class="hero-art">
+      <div class="disc"><img src="/assets/personajes/capijama.png" alt="Capijama, el personaje que representa la meta: descanso y energía"></div>
+      <div class="badge">12 semanas · resultados medibles desde la semana 6</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. SEÑALES -->
+<section>
+  <div class="in">
+    <div class="sec-head">
+      <p class="eyebrow">¿Te pasa esto?</p>
+      <h2>Duermes, pero no descansas</h2>
+      <p class="muted">Muchas personas viven así durante años y creen que es normal. No lo es. Estas son algunas señales de que tu descanso necesita atención:</p>
+    </div>
+    <div class="signals">
+      <div class="sig"><span>😮‍💨</span>Te levantas cansado, aunque hayas dormido tus horas</div>
+      <div class="sig"><span>☕</span>Necesitas café para arrancar y para no dormirte en la tarde</div>
+      <div class="sig"><span>😴</span>Te da sueño en reuniones, leyendo o manejando</div>
+      <div class="sig"><span>🔊</span>Roncas o te dicen que respiras raro de noche</div>
+      <div class="sig"><span>👄</span>Despiertas con la boca seca o respiras por la boca</div>
+      <div class="sig"><span>🌀</span>Te cuesta concentrarte y rindes menos de lo que sabes que puedes</div>
+    </div>
+    <div class="callout">
+      <p><strong>Son 3 minutos.</strong> Al final descubres qué está pasando con tu sueño y te llevas 3 hábitos sencillos para descansar mejor.</p>
+      <a class="btn" href="/autotest/">Hacer el autotest</a>
+    </div>
+  </div>
+</section>
+
+<!-- 3. QUÉ ES -->
+<section class="alt-bg">
+  <div class="in">
+    <div class="sec-head">
+      <p class="eyebrow">Qué es Akunaté</p>
+      <h2>Un programa para entrenar cómo respiras, cómo duermes y cómo descansas</h2>
+      <p class="muted">Akunaté no es otro consejo de "duerme 8 horas". Trabaja lo que casi nadie revisa: la forma en que respiras, la fuerza y postura de la lengua y los músculos de la cara y la garganta, y tus hábitos de cada día. Con pequeños hábitos, semana a semana.</p>
+    </div>
+    <div class="pillars">
+      <div class="pill"><span class="n">01</span><h3>Higiene del sueño</h3><p class="muted">Rutinas simples para que tu cuerpo sepa cuándo apagar y cuándo encender.</p></div>
+      <div class="pill"><span class="n">02</span><h3>Ejercicios orofaciales y orofaríngeos</h3><p class="muted">Entrenamiento guiado de lengua, labios, mejillas y garganta para respirar mejor de noche.</p></div>
+      <div class="pill"><span class="n">03</span><h3>Funciones de cada día</h3><p class="muted">Respiración nasal, masticación, deglución, lavado nasal, hidratación y postura.</p></div>
+    </div>
+    <div class="facts">
+      <span class="fact">12 semanas</span>
+      <span class="fact">Resultados medibles en la semana 6</span>
+      <span class="fact">Portal semanal con videos y registro</span>
+      <span class="fact">Acompañamiento por WhatsApp</span>
+      <span class="fact">100 % a distancia o presencial</span>
+    </div>
+  </div>
+</section>
+
+<!-- 4. CÓMO FUNCIONA (EMBUDO) -->
+<section id="como-funciona">
+  <div class="in">
+    <div class="sec-head">
+      <p class="eyebrow">Cómo funciona</p>
+      <h2>Tu camino, paso a paso</h2>
+      <p class="muted">Sin compromisos hasta que tengas claro si Akunaté es para ti.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="tagline">Gratis · 3 min</span><h3>Autotest</h3><p class="muted">Descubre tu personaje del sueño, cuántas señales tienes y en qué nivel estás.</p></div>
+      <div class="step"><span class="tagline">Gratis · 20 min</span><h3>Conversación 1 a 1</h3><p class="muted">Una videollamada para revisar tu resultado y decirte con honestidad si el programa te sirve o si primero debes ver a tu médico.</p></div>
+      <div class="step"><span class="tagline">Semana 0</span><h3>Evaluación de línea base</h3><p class="muted">Cuestionarios y fotografías guiadas que tomas desde casa (o en persona). Recibes tu informe con tu punto de partida.</p></div>
+      <div class="step"><span class="tagline">Semanas 1 a 12</span><h3>Programa</h3><p class="muted">Cada semana un paso nuevo en tu portal. En la semana 6 medimos de nuevo y comparas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. PERSONAJES -->
+<section class="alt-bg">
+  <div class="in">
+    <div class="sec-head">
+      <p class="eyebrow">Tu ruta del descanso</p>
+      <h2>De tu personaje de hoy a Capijama</h2>
+      <p class="muted">Cada personaje representa una forma de dormir mal. La meta es llegar a Capijama: despertar con energía.</p>
+    </div>
+    <div class="cast" aria-label="Personajes de Akunaté">
+      <figure><img src="/assets/personajes/suzzzita1.png" alt=""><figcaption>Suzzzita</figcaption></figure>
+      <figure><img src="/assets/personajes/mosco.png" alt=""><figcaption>Agripino</figcaption></figure>
+      <figure><img src="/assets/personajes/almohadin.png" alt=""><figcaption>Almohadín</figcaption></figure>
+      <figure><img src="/assets/personajes/dormilon.png" alt=""><figcaption>Dormilón</figcaption></figure>
+      <figure><img src="/assets/personajes/conzzzilio.png" alt=""><figcaption>Conzzzilio</figcaption></figure>
+      <span class="arrow">→</span>
+      <figure class="goal"><img src="/assets/personajes/capijama.png" alt=""><figcaption>Capijama · tu meta</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 6. HISTORIA -->
+<section>
+  <div class="in story">
+    <div class="video">
+      <iframe src="https://www.youtube-nocookie.com/embed/AEkikPTmUjQ" title="Historia de Marcos" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <p class="eyebrow">Historias reales</p>
+      <blockquote>Marcos cuenta, con sus palabras, cómo cambió su descanso.</blockquote>
+      <p class="muted">Cada persona que entra al programa es un miembro, no un paciente. Medimos al empezar y en la semana 6 para que veas tu avance con datos, no con promesas.</p>
+      <a class="btn alt" href="/autotest/" style="align-self:flex-start">Empieza con el autotest</a>
+    </div>
+  </div>
+</section>
+
+<!-- 7. CREADORA -->
+<section class="alt-bg">
+  <div class="in creator">
+    <div class="avatar" aria-hidden="true">ER</div>
+    <div>
+      <p class="eyebrow">Quién está detrás</p>
+      <h2>Eliana Rivera, creadora de Akunaté</h2>
+      <p class="muted" style="margin-top:12px">Fonoaudióloga y docente titular de la Universidad de Pamplona (Colombia). Akunaté nace de su modelo de terapia miofuncional orofacial para el ronquido y la apnea del sueño, desarrollado en su doctorado y publicado en capítulos de libro y artículos científicos.</p>
+      <ul class="muted">
+        <li>Cofundadora del pregrado y del Doctorado en Fonoaudiología de la Universidad de Pamplona.</li>
+        <li>Fundadora de la seccional Antioquia de la Asociación Colombiana de Medicina del Sueño.</li>
+        <li>Editora en jefe de la revista científica Signos Fónicos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8. HONESTIDAD -->
+<section>
+  <div class="in">
+    <div class="sec-head">
+      <p class="eyebrow">Expectativas reales</p>
+      <h2>Lo que Akunaté es, y lo que no es</h2>
+    </div>
+    <div class="two">
+      <div class="box yes">
+        <h3>Es para ti si…</h3>
+        <ul>
+          <li>Vives cansado o con sueño de día y quieres entender por qué.</li>
+          <li>Roncas, respiras por la boca o te despiertas sin descansar.</li>
+          <li>Estás dispuesto a practicar unos minutos al día durante 12 semanas.</li>
+          <li>Quieres un programa con medición al inicio y en la semana 6.</li>
+        </ul>
+      </div>
+      <div class="box no">
+        <h3>No es…</h3>
+        <ul>
+          <li>Un tratamiento médico ni un reemplazo del CPAP o de lo que te formuló tu médico.</li>
+          <li>Un examen de sueño: no hacemos polisomnografía ni poligrafía.</li>
+          <li>Una solución mágica: los resultados dependen de tu práctica.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="medical">
+      <p><strong>Trabajo en equipo con tu médico.</strong> Si el autotest o la evaluación muestran muchas señales, te recomendamos consultar a un médico especialista en sueño antes de empezar. Si ya tienes un diagnóstico (por ejemplo, apnea del sueño), Akunaté puede acompañar tu tratamiento como complemento, con conocimiento de tu médico.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9. INVERSIÓN -->
+<section class="alt-bg" id="inversion">
+  <div class="in">
+    <div class="sec-head">
+      <p class="eyebrow">Inversión</p>
+      <h2>Un solo pago por las 12 semanas</h2>
+      <p class="muted">Primero hablamos. Solo si el programa te sirve, te enviamos el enlace de pago.</p>
+    </div>
+    <div class="price">
+      <div class="plan main">
+        <h3>Programa Akunaté · a distancia</h3>
+        <p class="amount">USD 497 <small>pago único</small></p>
+        <ul>
+          <li>Evaluación de línea base con fotografías guiadas desde casa</li>
+          <li>Informe personal con tu punto de partida</li>
+          <li>12 semanas de portal con videos, ejercicios y registro</li>
+          <li>Medición en la semana 6</li>
+          <li>Acompañamiento por WhatsApp</li>
+        </ul>
+        <p class="small">Puedes pagar con tarjeta de crédito y diferirlo con tu banco (hasta 36 cuotas, según tu banco).</p>
+        <a class="btn" href="#" data-wa="Hola Eliana, hice el autotest y quiero saber si Akunaté es para mí.">Quiero mi conversación gratuita</a>
+      </div>
+      <div class="plan">
+        <h3>Plan Pareja</h3>
+        <p class="amount">USD 894 <small>por los dos</small></p>
+        <ul>
+          <li>Todo lo del programa, para dos personas</li>
+          <li>Ideal si duermen juntos: el ronquido de uno es el insomnio del otro</li>
+        </ul>
+        <a class="btn alt" href="#" data-wa="Hola Eliana, quiero información del Plan Pareja de Akunaté.">Preguntar por el Plan Pareja</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. FAQ -->
+<section>
+  <div class="in" style="max-width:760px">
+    <div class="sec-head">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Lo que más nos preguntan</h2>
+    </div>
+    <details><summary>¿Necesito verme en persona con Eliana?</summary><p>No es obligatorio. La evaluación de línea base se puede hacer a distancia con fotografías guiadas y cuestionarios. Si vives cerca, también puedes hacerla en persona.</p></details>
+    <details><summary>¿Cuánto tiempo al día necesito?</summary><p>Entre 10 y 20 minutos al día de práctica, más pequeños hábitos que se integran a tu rutina.</p></details>
+    <details><summary>¿Cuándo voy a notar cambios?</summary><p>En la semana 6 repetimos la medición para que compares con tu punto de partida. Cada persona avanza a su ritmo, y por eso medimos en lugar de prometer.</p></details>
+    <details><summary>Uso CPAP o tengo apnea del sueño. ¿Puedo entrar?</summary><p>Sí, como complemento y con conocimiento de tu médico. Akunaté no reemplaza tu tratamiento.</p></details>
+    <details><summary>¿Qué pasa después de las 12 semanas?</summary><p>Terminas con autonomía para mantener tus hábitos. Si quieres seguir acompañado, existe una opción de continuidad.</p></details>
+  </div>
+</section>
+
+<!-- 11. FINAL -->
+<section class="final alt-bg">
+  <div class="in">
+    <img src="/assets/personajes/capijama.png" alt="">
+    <h2>Empieza hoy por lo más simple</h2>
+    <p class="muted" style="max-width:52ch">3 minutos. Descubre qué personaje del sueño eres y llévate 3 hábitos para descansar mejor esta misma noche.</p>
+    <a class="btn sun" href="/autotest/">Hacer el autotest gratis</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="in">
+    <span>© 2026 Akunaté®. Programa no clínico de bienestar del sueño. No reemplaza la consulta médica.</span>
+    <a href="#" data-wa="Hola Eliana, tengo una pregunta sobre Akunaté.">Escríbenos por WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+const WA="573236209696";
+document.querySelectorAll('[data-wa]').forEach(a=>{
+  a.href=`https://wa.me/${WA}?text=${encodeURIComponent(a.dataset.wa)}`;
+  a.target="_blank";a.rel="noopener";
+});
+</script>
+</body>
+</html>
