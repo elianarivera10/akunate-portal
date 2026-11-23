@@ -196,15 +196,15 @@ function perfil(){
 const LVN=["Algunos inconvenientes","Un problema de sueño","Posible trastorno de sueño"];
 function datos(){bar(4);const L=S.lead||{};return `<div class="wrap">
  <p class="eyebrow">Último paso</p>
- <h2>Tu resultado está listo. ¿A nombre de quién lo dejamos?</h2>
- <p class="muted">Escribe tus datos para ver tu personaje y tu nivel de descanso. Te escribiremos por WhatsApp o correo para acompañarte con tu resultado.</p>
+ <h2>Tu resultado está listo. ¿A dónde te enviamos tu informe?</h2>
+ <p class="muted">Déjame tu correo y tu celular y te envío tu informe con las indicaciones de qué hacer en tu caso. Además, ves tu personaje y tu nivel de descanso ahora mismo.</p>
  <form class="form" id="lead" novalidate>
   <label class="field">Nombre<input name="nombre" autocomplete="name" required maxlength="80" value="${esc(L.nombre||"")}"></label>
   <label class="field">Correo electrónico<input name="correo" type="email" autocomplete="email" required maxlength="120" value="${esc(L.correo||"")}"></label>
   <label class="field">Celular (WhatsApp)<input name="celular" type="tel" autocomplete="tel" inputmode="tel" required maxlength="25" placeholder="+57 300 000 0000" value="${esc(L.celular||"")}"><small>Con el indicativo del país si no estás en Colombia.</small></label>
-  <label class="consent"><input type="checkbox" name="acepto" required ${L.acepto?"checked":""}><span>Autorizo a Akunaté® a tratar mis datos para enviarme mi resultado y contactarme sobre el programa, según la <a href="/privacidad/" target="_blank" rel="noopener">política de tratamiento de datos</a> (Ley 1581 de 2012). Puedo pedir que los borren cuando quiera.</span></label>
+  <label class="consent"><input type="checkbox" name="acepto" required ${L.acepto?"checked":""}><span>Autorizo a Akunaté® a tratar mis datos para enviarme mi informe y contactarme sobre el programa, según la <a href="/privacidad/" target="_blank" rel="noopener">política de tratamiento de datos</a> (Ley 1581 de 2012). Puedo pedir que los borren cuando quiera.</span></label>
   <p class="err" id="err" role="alert"></p>
-  <button class="btn" type="submit">Ver mi resultado</button>
+  <button class="btn" type="submit">Enviarme mi informe y ver mi resultado</button>
  </form>
  <button class="link" data-go="sintomas">← Volver</button></div>`}
 function enviarLead(L){
@@ -224,7 +224,7 @@ function resultado(){bar(4);
  const LVT=["Reconociste pocas señales. Con buenos hábitos y constancia, tu descanso puede mejorar pronto.","Varias señales se suman. Vale la pena un plan guiado para recuperar un sueño profundo.","Reconociste muchas señales. Te recomendamos consultar con un médico especialista en sueño. Akunaté puede acompañarte como complemento, con conocimiento de tu médico."];
  const seen=new Set();const recs=SYM.filter(s=>S.sym.has(s.id)).filter(s=>!seen.has(s.r[0])&&seen.add(s.r[0]));
  const pimg=P.img?`<img src="${P.img}" alt="${esc(P.n)}">`:`<div class="ph">Conzzzilio<br>ilustración en camino</div>`;
- const nom=S.lead&&S.lead.nombre?`, soy ${S.lead.nombre.split(" ")[0]}`:"";const msg=encodeURIComponent(`Hola Eliana${nom}. Hice el autotest de Akunaté. Mi perfil: ${P.n}. Señales: ${n}. Quiero agendar mi llamada de línea base gratuita.`);
+ const nom=S.lead&&S.lead.nombre?`, soy ${S.lead.nombre.split(" ")[0]}`:"";const msg=encodeURIComponent(`Hola Eliana${nom}. Hice el autotest de Akunaté. Mi perfil: ${P.n}. Señales: ${n}. Tengo una pregunta sobre mi informe.`);
  return `<div class="wrap">
  <p class="eyebrow">Tu perfil de sueño</p>
  <h1>Tu perfil se parece al de ${esc(P.n)}</h1>
@@ -237,12 +237,12 @@ function resultado(){bar(4);
  <ol class="level" aria-label="Escala según el número de señales">${LV.map((l,i)=>`<li class="${i===lv?"on":""}"${i===lv?' aria-current="true"':""}><b>${l}</b><small>${LVR[i]}</small></li>`).join("")}</ol>
  <div class="scale" aria-hidden="true"><span>Menos señales</span><span>Más señales</span></div><p>${LVT[lv]}</p>${S.sym.has("ahogo")?`<div class="note"><b>Importante:</b> despertar con ahogo puede ser una señal de apnea del sueño. Consulta con un médico especialista en sueño; Akunaté te acompaña como complemento, con su conocimiento.</div>`:""}</div>
  <div class="card"><h2 style="font-size:22px">Tus señales</h2><div class="chips">${recs.map(s=>`<span>${esc(s.r[0])}</span>`).join("")}</div>
- <div class="lock"><span aria-hidden="true">🔒</span><p class="muted">Cada señal tiene su propio camino de trabajo. <b style="color:var(--ink)">En tu llamada de línea base gratuita te muestro qué haríamos con cada una</b>, paso a paso y semana a semana.</p></div></div>
+ <div class="lock"><span aria-hidden="true">📩</span><p class="muted">Cada señal tiene su propio camino de trabajo. <b style="color:var(--ink)">Te envío por WhatsApp y correo tu informe con las indicaciones para cada una</b>, paso a paso.</p></div></div>
  <div class="card"><h2 style="font-size:22px">Así trabaja Akunaté</h2><p class="muted">Terapia miofuncional orofacial con pequeños hábitos y atención plena, en tres componentes:</p><ol class="habits"><li><b>Higiene del sueño:</b> rutinas y rituales sencillos para dormir mejor.</li><li><b>Ejercicios orofaciales y orofaríngeos:</b> lengua, labios, mejillas y garganta, para que el aire pase mejor de noche.</li><li><b>Prácticas para el día:</b> respiración, masticación, deglución, lavado nasal, hidratación y postura.</li></ol></div>
  <div class="card"><h2 style="font-size:22px">3 hábitos para empezar desde hoy</h2><ol class="habits"><li><b>Levántate siempre a la misma hora</b>, también el fin de semana. Tu cuerpo aprende cuándo despertar y cuándo tener sueño.</li><li><b>Recibe luz natural apenas te levantes</b>: abre la ventana o sal 5 minutos. La luz le avisa a tu cuerpo que empezó el día.</li><li><b>Apaga las pantallas una hora antes de dormir.</b> Así tu mente baja el ritmo y el sueño llega más fácil.</li></ol>
  <p class="muted">Dale a cada hábito 2 o 3 semanas antes de ver si funciona.</p></div>
- <div class="card"><h2 style="font-size:22px">De ${esc(P.n)} a Capijama: tu siguiente paso</h2><p class="muted">Agenda tu <b>llamada de línea base gratuita</b> por videollamada. Revisamos juntos tu resultado, te muestro qué haríamos con cada una de tus señales y cómo sería tu camino de 12 semanas, sin compromiso.</p></div>
- <a class="btn" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">Agendar mi llamada de línea base gratuita</a>
+ <div class="card"><h2 style="font-size:22px">De ${esc(P.n)} a Capijama: tu siguiente paso</h2><p class="muted">Revisa tu <b>WhatsApp</b> y tu <b>correo</b>: ahí te llega tu informe con las indicaciones de qué hacer en tu caso y cómo sería tu camino de 12 semanas en Akunaté.</p></div>
+ <a class="btn alt" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">¿Tienes una pregunta? Escríbenos por WhatsApp</a>
  <p class="foot">WhatsApp oficial Akunaté: +57 323 620 9696</p>
  <button class="btn alt" data-reset>Repetir el autotest</button></div>`}
 function bien(){bar(4);return `<div class="wrap">
