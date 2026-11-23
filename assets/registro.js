@@ -1,7 +1,7 @@
 /* Akunaté · guarda cada registro semanal en la hoja privada de Google de la Dra. Eliana.
    Sin datos personales: solo un código de miembro (p. ej. ?m=S1 en el enlace), la semana y el texto del registro. */
 (function () {
-  var URL_HOJA = ""; // Pegar aquí la URL de la aplicación web de Apps Script (termina en /exec).
+  var URL_HOJA = "https://script.google.com/macros/s/AKfycbwwNP2l40rl9IsOfF046WwlhNySCxJTOz8I1Ojm6dgmdgZRYmiWGatiGSicwLb08QbyMQ/exec"; // Pegar aquí la URL de la aplicación web de Apps Script (termina en /exec).
   var KEY = "aku-miembro";
   try {
     var m = new URLSearchParams(location.search).get("m");
