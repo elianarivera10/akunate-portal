@@ -78,6 +78,17 @@ ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .link{background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px}
 @media (max-width:380px){.grid{grid-template-columns:1fr}.anchors{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:no-preference){#view{animation:in .25s ease}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+.form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:15px}
+.field input{font:inherit;font-weight:400;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:13px 14px;width:100%}
+.field input:focus{border-color:var(--accent);outline:none}
+.field small{font-weight:400;color:var(--muted);font-size:13px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);line-height:1.45}
+.consent input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:var(--accent)}
+.consent a{color:var(--ink)}
+.err{color:#b3261e;font-size:14px;font-weight:700;min-height:1em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{background:var(--accent-soft);border-radius:99px;padding:6px 12px;font-size:14px;font-weight:700}
+.lock{display:flex;gap:10px;align-items:flex-start;background:var(--night-soft);border-radius:12px;padding:12px 14px}
 </style>
 </head>
 <body>
@@ -91,6 +102,9 @@ ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 <script>
 const IMG={capijama:"/assets/personajes/capijama.png",dormilon:"/assets/personajes/dormilon.png",almohadin:"/assets/personajes/almohadin.png",mosco:"/assets/personajes/mosco.png",s1:"/assets/personajes/suzzzita1.png",s2:"/assets/personajes/suzzzita2.png",s3:"/assets/personajes/suzzzita3.png",s4:"/assets/personajes/suzzzita4.png",s5:"/assets/personajes/suzzzita5.png",s6:"/assets/personajes/suzzzita6.png",conz:"/assets/personajes/conzzzilio.png"};
 const WA="573236209696";
+// URL de la aplicación web de Apps Script (termina en /exec). Vacía = no se envía nada.
+const LEADS_URL="";
+const REF=(()=>{try{const r=new URLSearchParams(location.search).get("ref")||"";return /^[A-Za-z0-9_-]{1,30}$/.test(r)?r.toLowerCase():"directo"}catch(e){return "directo"}})();
 const SHARE="Hice este autotest de Akunaté y me acordé de ti. Son 3 minutos: descubres qué está pasando con tu sueño y te llevas 3 hábitos sencillos para descansar mejor. https://portal.akunate.com/autotest/";
 
 const EXP=[
@@ -133,7 +147,7 @@ const PROF={
 };
 const ORDER=["alm","mosco","dorm","conz","suz"];
 
-let S={step:"inicio",exp:null,sym:new Set()};
+let S={step:"inicio",exp:null,sym:new Set(),next:"resultado",lead:null};
 const $v=document.getElementById("view");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function bar(n){document.querySelectorAll("#bar i").forEach((el,i)=>el.classList.toggle("on",i<n))}
@@ -141,7 +155,7 @@ function go(step){S.step=step;render();window.scrollTo({top:0})}
 
 function render(){
  $v.style.animation="none";void $v.offsetWidth;$v.style.animation="";
- const f={inicio,experiencia,detalle,sintomas,resultado,bien}[S.step];$v.innerHTML=f();wire();
+ const f={inicio,experiencia,detalle,sintomas,datos,resultado,bien}[S.step];$v.innerHTML=f();wire();
 }
 function inicio(){bar(1);return `<div class="wrap">
  <p class="eyebrow">Autotest · 3 minutos</p>
@@ -169,9 +183,36 @@ function sintomas(){bar(3);const n=S.sym.size,ok=S.exp==="bien";return `<div cla
  <h2>${ok?"¡Qué bien! Antes de ver tu resultado, ¿te pasa alguna de estas?":"¿Cuáles de estas señales vives con frecuencia?"}</h2>
  <p class="muted">${ok?"Marca las que te pasen con frecuencia. Si no te pasa ninguna, continúa.":"Marca todas las que apliquen."}</p>
  <div class="grid">${SYM.map(s=>`<button class="sym" data-sym="${s.id}" aria-pressed="${S.sym.has(s.id)}"><span class="ck" aria-hidden="true">${S.sym.has(s.id)?"✓":""}</span>${esc(s.t)}</button>`).join("")}</div>
- ${ok&&!n?`<button class="btn" data-go="bien">No me pasa ninguna: ver mi resultado</button>`:`<button class="btn" data-go="resultado" ${n?"":"disabled"}>${n?`Ver mi resultado (${n})`:"Marca al menos una señal"}</button>`}
+ ${ok&&!n?`<button class="btn" data-next="bien">No me pasa ninguna: ver mi resultado</button>`:`<button class="btn" data-next="resultado" ${n?"":"disabled"}>${n?`Ver mi resultado (${n})`:"Marca al menos una señal"}</button>`}
  <button class="link" data-go="${ok?"experiencia":"detalle"}">← Volver</button></div>`}
 function nivel(n){return n<=3?0:n<=7?1:2}
+function perfil(){
+ if(S.exp==="bien"&&!S.sym.size)return {key:"capijama",P:{n:"Capijama"},n:0,lv:-1};
+ const sc={suz:0,conz:0,dorm:0,mosco:0,alm:0};
+ const add=p=>Object.entries(p||{}).forEach(([k,v])=>sc[k]+=v);
+ add(EXP.find(x=>x.id===S.exp).p);[...S.sym].forEach(id=>add(SYM.find(s=>s.id===id).p));
+ const top=ORDER.reduce((a,b)=>sc[b]>sc[a]?b:a,ORDER[0]);return {key:top,P:PROF[top],n:S.sym.size,lv:nivel(S.sym.size)};
+}
+const LVN=["Algunos inconvenientes","Un problema de sueño","Posible trastorno de sueño"];
+function datos(){bar(4);const L=S.lead||{};return `<div class="wrap">
+ <p class="eyebrow">Último paso</p>
+ <h2>Tu resultado está listo. ¿A dónde te enviamos tu informe?</h2>
+ <p class="muted">Déjame tu correo y tu celular y te envío tu informe con las indicaciones de qué hacer en tu caso. Además, ves tu personaje y tu nivel de descanso ahora mismo.</p>
+ <form class="form" id="lead" novalidate>
+  <label class="field">Nombre<input name="nombre" autocomplete="name" required maxlength="80" value="${esc(L.nombre||"")}"></label>
+  <label class="field">Correo electrónico<input name="correo" type="email" autocomplete="email" required maxlength="120" value="${esc(L.correo||"")}"></label>
+  <label class="field">Celular (WhatsApp)<input name="celular" type="tel" autocomplete="tel" inputmode="tel" required maxlength="25" placeholder="+57 300 000 0000" value="${esc(L.celular||"")}"><small>Con el indicativo del país si no estás en Colombia.</small></label>
+  <label class="consent"><input type="checkbox" name="acepto" required ${L.acepto?"checked":""}><span>Autorizo a Akunaté® a tratar mis datos para enviarme mi informe y contactarme sobre el programa, según la <a href="/privacidad/" target="_blank" rel="noopener">política de tratamiento de datos</a> (Ley 1581 de 2012). Puedo pedir que los borren cuando quiera.</span></label>
+  <p class="err" id="err" role="alert"></p>
+  <button class="btn" type="submit">Enviarme mi informe y ver mi resultado</button>
+ </form>
+ <button class="link" data-go="sintomas">← Volver</button></div>`}
+function enviarLead(L){
+ if(!LEADS_URL)return;const R=perfil();
+ const body={nombre:L.nombre,correo:L.correo,celular:L.celular,autorizacion:"Sí",personaje:R.P.n,senales:R.n,nivel:R.lv<0?"Capijama":LVN[R.lv],
+  experiencia:(EXP.find(x=>x.id===S.exp)||{}).t||"",lista_senales:SYM.filter(s=>S.sym.has(s.id)).map(s=>s.t).join(", "),origen:REF};
+ try{fetch(LEADS_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)})}catch(e){}
+}
 function resultado(){bar(4);
  const sc={suz:0,conz:0,dorm:0,mosco:0,alm:0};
  const add=p=>Object.entries(p||{}).forEach(([k,v])=>sc[k]+=v);
@@ -183,7 +224,7 @@ function resultado(){bar(4);
  const LVT=["Reconociste pocas señales. Con buenos hábitos y constancia, tu descanso puede mejorar pronto.","Varias señales se suman. Vale la pena un plan guiado para recuperar un sueño profundo.","Reconociste muchas señales. Te recomendamos consultar con un médico especialista en sueño. Akunaté puede acompañarte como complemento, con conocimiento de tu médico."];
  const seen=new Set();const recs=SYM.filter(s=>S.sym.has(s.id)).filter(s=>!seen.has(s.r[0])&&seen.add(s.r[0]));
  const pimg=P.img?`<img src="${P.img}" alt="${esc(P.n)}">`:`<div class="ph">Conzzzilio<br>ilustración en camino</div>`;
- const msg=encodeURIComponent(`Hola, hice el autotest de Akunaté. Mi perfil: ${P.n}. Señales: ${n}. Quiero empezar mi camino a Capijama y agendar la videollamada.`);
+ const nom=S.lead&&S.lead.nombre?`, soy ${S.lead.nombre.split(" ")[0]}`:"";const msg=encodeURIComponent(`Hola Eliana${nom}. Hice el autotest de Akunaté. Mi perfil: ${P.n}. Señales: ${n}. Tengo una pregunta sobre mi informe.`);
  return `<div class="wrap">
  <p class="eyebrow">Tu perfil de sueño</p>
  <h1>Tu perfil se parece al de ${esc(P.n)}</h1>
@@ -195,12 +236,13 @@ function resultado(){bar(4);
  <p class="lvlead">Registraste <b>${n} ${n===1?"señal":"señales"} de sueño</b>. Eso te ubica en: <b>${LV[lv]}</b>.</p>
  <ol class="level" aria-label="Escala según el número de señales">${LV.map((l,i)=>`<li class="${i===lv?"on":""}"${i===lv?' aria-current="true"':""}><b>${l}</b><small>${LVR[i]}</small></li>`).join("")}</ol>
  <div class="scale" aria-hidden="true"><span>Menos señales</span><span>Más señales</span></div><p>${LVT[lv]}</p>${S.sym.has("ahogo")?`<div class="note"><b>Importante:</b> despertar con ahogo puede ser una señal de apnea del sueño. Consulta con un médico especialista en sueño; Akunaté te acompaña como complemento, con su conocimiento.</div>`:""}</div>
- <div class="card"><h2 style="font-size:22px">Qué haríamos contigo</h2>${recs.map(s=>`<div class="rec"><h3>${esc(s.r[0])}</h3><p class="muted">${esc(s.r[1])}</p></div>`).join("")}</div>
+ <div class="card"><h2 style="font-size:22px">Tus señales</h2><div class="chips">${recs.map(s=>`<span>${esc(s.r[0])}</span>`).join("")}</div>
+ <div class="lock"><span aria-hidden="true">📩</span><p class="muted">Cada señal tiene su propio camino de trabajo. <b style="color:var(--ink)">Te envío por WhatsApp y correo tu informe con las indicaciones para cada una</b>, paso a paso.</p></div></div>
  <div class="card"><h2 style="font-size:22px">Así trabaja Akunaté</h2><p class="muted">Terapia miofuncional orofacial con pequeños hábitos y atención plena, en tres componentes:</p><ol class="habits"><li><b>Higiene del sueño:</b> rutinas y rituales sencillos para dormir mejor.</li><li><b>Ejercicios orofaciales y orofaríngeos:</b> lengua, labios, mejillas y garganta, para que el aire pase mejor de noche.</li><li><b>Prácticas para el día:</b> respiración, masticación, deglución, lavado nasal, hidratación y postura.</li></ol></div>
  <div class="card"><h2 style="font-size:22px">3 hábitos para empezar desde hoy</h2><ol class="habits"><li><b>Levántate siempre a la misma hora</b>, también el fin de semana. Tu cuerpo aprende cuándo despertar y cuándo tener sueño.</li><li><b>Recibe luz natural apenas te levantes</b>: abre la ventana o sal 5 minutos. La luz le avisa a tu cuerpo que empezó el día.</li><li><b>Apaga las pantallas una hora antes de dormir.</b> Así tu mente baja el ritmo y el sueño llega más fácil.</li></ol>
  <p class="muted">Dale a cada hábito 2 o 3 semanas antes de ver si funciona.</p></div>
- <div class="card"><h2 style="font-size:22px">De ${esc(P.n)} a Capijama: tu siguiente paso</h2><p class="muted">Conversemos por videollamada. Revisamos juntos tu resultado, te mostramos cómo sería tu camino en Akunaté durante 12 semanas y resolvemos tus dudas, sin compromiso.</p></div>
- <a class="btn" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">Quiero empezar mi camino a Capijama</a>
+ <div class="card"><h2 style="font-size:22px">De ${esc(P.n)} a Capijama: tu siguiente paso</h2><p class="muted">Revisa tu <b>WhatsApp</b> y tu <b>correo</b>: ahí te llega tu informe con las indicaciones de qué hacer en tu caso y cómo sería tu camino de 12 semanas en Akunaté.</p></div>
+ <a class="btn alt" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">¿Tienes una pregunta? Escríbenos por WhatsApp</a>
  <p class="foot">WhatsApp oficial Akunaté: +57 323 620 9696</p>
  <button class="btn alt" data-reset>Repetir el autotest</button></div>`}
 function bien(){bar(4);return `<div class="wrap">
@@ -227,7 +269,16 @@ function wire(){
  $v.querySelectorAll("[data-exp]").forEach(b=>b.onclick=()=>{S.exp=b.dataset.exp;S.sym.clear();go(S.exp==="bien"?"sintomas":"detalle")});
  $v.querySelectorAll("[data-sym]").forEach(b=>b.onclick=()=>{const id=b.dataset.sym;S.sym.has(id)?S.sym.delete(id):S.sym.add(id);render();const el=$v.querySelector(`[data-sym="${id}"]`);el&&el.focus()});
  $v.querySelectorAll("[data-share]").forEach(b=>b.onclick=e=>{if(navigator.share){e.preventDefault();navigator.share({title:"Autotest Akunaté",text:SHARE}).catch(()=>{})}});
- $v.querySelectorAll("[data-reset]").forEach(b=>b.onclick=()=>{S={step:"inicio",exp:null,sym:new Set()};go("inicio")});
+ $v.querySelectorAll("[data-reset]").forEach(b=>b.onclick=()=>{S={step:"inicio",exp:null,sym:new Set(),next:"resultado",lead:S.lead};go("inicio")});
+ $v.querySelectorAll("[data-next]").forEach(b=>b.onclick=()=>{if(b.disabled)return;S.next=b.dataset.next;go(S.lead&&S.lead.ok?S.next:"datos")});
+ const f=$v.querySelector("#lead");if(f)f.onsubmit=e=>{e.preventDefault();
+  const d=new FormData(f),L={nombre:(d.get("nombre")||"").trim(),correo:(d.get("correo")||"").trim(),celular:(d.get("celular")||"").trim(),acepto:!!d.get("acepto")};
+  const er=$v.querySelector("#err");S.lead=L;
+  if(L.nombre.length<2)return er.textContent="Escribe tu nombre.";
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(L.correo))return er.textContent="Revisa tu correo.";
+  if(L.celular.replace(/\D/g,"").length<7)return er.textContent="Revisa tu celular.";
+  if(!L.acepto)return er.textContent="Para ver tu resultado, marca la autorización de datos.";
+  if(!L.ok){L.ok=true;enviarLead(L)}go(S.next)};
 }
 render();
 </script>
